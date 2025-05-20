@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>工学基礎実験実習 第8週目 講義資料</title>
+	<link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+<header>
+	<h1>工学基礎実験実習 第8週目 講義資料</h1>
+	<span class="subtitle">C言語のやさしい入門 1</span>
+	<span class="course">岡山大学工学部 情報工学先進コース</span>
+</header>
+<div class="content">
+	<section>
+		<h2>はじめに</h2>
+		<p>
+			この講義では、C言語の入門として、基本的なプログラムを書いて実際に実行してみる、という実習を行います。
+			C言語の詳細な説明については、1年生2・3学期や2年生の1・2学期の授業で行いますので、本講義では「書いて実行する」に焦点を当てて進めていきます。（※興味のある学生は教科書を読んで自学してみてください）
+		</p>
+		<h4>講義スケジュール</h4>
+		<table class="schedule">
+			<tr><th></th><th>日時</th><th>担当</th><th>内容</th></tr>
+			<tr><td>第8週目</td><td>6/10（火）13:25〜</td><td>松田・遠藤</td><td><a href="../week1/">C言語のやさしい入門 1</a></td></tr>
+			<tr><td>第9週目</td><td>6/17（火）13:25〜</td><td>松田・遠藤</td><td><a href="../week2/">C言語のやさしい入門 2</a></td></tr>
+			<tr><td>第10週目</td><td>6/24（火）13:25〜</td><td>遠藤</td><td><a href="../week3/">C言語のやさしい入門 3</a></td></tr>
+			<tr><td>第11週目</td><td>7/1（火）13:25〜</td><td>松田・遠藤</td><td><a href="../week4/">C言語のやさしい入門 4</a></td></tr>
+			<tr><td>第12週目</td><td>7/8（火）13:25〜</td><td>松田・遠藤</td><td><a href="../week5/">C言語のやさしい入門 5</a></td></tr>
+			<tr><td>第13週目</td><td>7/15（火）13:25〜</td><td>松田・遠藤</td><td><a href="../week6/">レポート文書作成技術（発展）</a></td></tr>
+			<tr><td>第14週目</td><td>7/29（火）13:25〜</td><td>松田・遠藤</td><td>最終試問</td></tr>
+		</table>
+		<h4>教科書</h4>
+		<ul>
+			<li>共立出版 『プログラミング言語C: ANSI規格準拠』</li>
+		</ul>
+	</section>
+	<section>
+		<h2>準備</h2>
+		<p>
+			まずは、端末（ターミナル）を開き、今日の作業をするためのフォルダを作成・移動しましょう。
+			ルート（<code>~/</code>）やデスクトップ上（~/Desktop/）に<code>kiso-jikken</code>というフォルダを作り、更にその中に今日の日付のフォルダ（<code>20240611</code>）を作成します。
+			そして、作成したフォルダに移動します。</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>mkdir -p kiso-jikken/20240611
+cd kiso-jikken/20240611
+</script>
+		</div>
+		<aside>
+			作業するファイルやフォルダなどは、整理しておくのがオススメです。<br>
+			あのファイルどこへ行った？というトラブルを防ぎやすくなります。
+		</aside>
+		<p>
+			Windows上のLinuxで作業している人は、ファイルがどこに作成されているのかがわからなくなるかも知れません。
+			ファイルを見たいときは、エクスプローラ（ファイルを見るソフト）のアドレスバーに<code>\\wsl$\Ubuntu\home\username</code>（<code>username</code>の部分はUbuntuのユーザ名に置き換える）と入力して<code>Enter</code>を押すことで、Linux内のファイルを見ることができるようになります。
+		</p>
+	</section>
+	<section>
+		<h2>Hello, world! （1.1節 手始めに）</h2>
+		<p>
+			まずは、「最初に書くプログラムといえば」の鉄板プログラムからスタートしましょう。<br>
+			プログラムを実行したら、
+		</p>
+		<code>Hello, world!</code>
+		<p>
+			という文字列が画面に表示されるプログラムを書きましょう。
+		</p>
+		<section>
+			<h3>基本プログラム</h3>
+			<p>
+				emacsで<code>w01-01-hello.c</code>というファイルを作成して編集します。
+			</p>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>emacs w01-01-hello.c &
+</script>
+			</div>
+			<p>
+				もし、emacsがないと表示されたり、どうにも編集できない状態であれば、別のエディタを使いましょう。
+			</p>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>nano w01-01-hello.c
+</script>
+			</div>
+			<p>
+				nanoで保存するときは<code>Ctrl + o → Enter</code>、終了するときは<code>Ctrl + x → Enter</code>です。
+			</p>
+			<div class="code">
+<span class="filename">w01-01-hello.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+ 
+int main() {
+  printf("Hello, world!\n");
+}
+</script>
+			</div>
+			<aside>
+				教科書には<code>main()</code>の前に<code>int</code>というのがありませんが、これがないとコンパイラは警告メッセージを表示します。
+			</aside>
+			<p>
+				プログラムが書けたら保存し、コンパイルしてみましょう。<br>
+				コンパイルが成功すると<code>a.out</code>というファイルが同じフォルダ内に新しく作成されます。<br>
+				このファイルを実行し、<code>Hello, world!</code>という出力が得られれば成功です。
+			</p>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w01-01-hello.c
+ls
+# a.out  w01-01-hello.c  ⇒ と表示されるはず（a.outが増えている）
+./a.out
+# Hello, world!  ⇒ と表示されるはず
+</script>
+			</div>
+			<aside>
+				環境によっては<code>cc</code>ではなく<code>gcc</code>でないとコンパイルができないことがあります。<br>
+				教科書では<code>a.out</code>というコマンドで走らせる、とありますが、<code>./a.out</code>としないとエラーが出ることがあります。
+			</aside>
+		</section>
+		<section class="advanced" id="adv-p1-01">
+			<h3>コードの解説（おまけ）</h3>
+			<div class="adv-content">
+				<p class="adv-msg">
+					上記のコードのそれぞれの部分が何の処理をしているのかについて解説します。<br>
+					興味のある学生は読んでみて下さい。
+				</p>
+				<div class="adv-more" onclick="document.getElementById('adv-p1-01').classList.toggle('shown');"></div>
+				<div class="adv-body">
+					<div class="code">
+<span class="filename">w01-01-hello.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h> // ★1
+  
+int main() { // ★2
+  printf("Hello, world!\n"); // ★3
+}
+</script>
+					</div>
+					<p>
+						★1: 標準入出力を行うためのライブラリを取り込む指示。
+						<code>stdio</code>は、STanDard Input Output の略。
+						ここで言う「標準入出力」とは、多くの場合では「入力 = キーボード」「出力 = ディスプレイ」を意味する。
+					</p>
+					<p>
+						★2: <code>main()</code> は「関数」と呼ばれる。
+						関数とは、プログラムで実行されるべき計算の過程を示す「文」と、
+						計算で用いられる値を格納する「変数」によって構成される。
+						関数の範囲は大括弧<code>{</code>と<code>}</code>で囲った範囲となる。
+						C言語では <code>main</code>関数 は必ず最初に実行される特別な関数であり、
+						必ずプログラムに <code>main</code>関数 を含めなければならない。
+						<code>main</code>関数以外にも関数は多数存在し、また、自身で自由に関数を作成することもできる。
+						また、<code>main()</code>の前にある<code>int</code>は「返り値」と呼ばれ、
+						関数が終了した際に関数がどのような型のデータを返すのかを定義している。
+					</p>
+					<p>
+						★3: <code>printf</code>は標準出力（=ディスプレイ）に指定した文字列を出力するための関数。
+						丸括弧<code>(</code>と<code>)</code>で囲まれた範囲に「引数（ここでは文字列、たとえばダブルクォーテーション<code>""</code>で挟んだ任意の文字など）」を与えることで関数が実行される。
+					</p>
+				</div>
+			</div>
+		</section>
+		<section>
+			<h3>いろいろ試してみる</h3>
+			<p>
+				<code>printf</code>関数に与えている文字列の最後にある記号<code>\n</code>は改行を表します。<br>
+				では、この記号の代わりに、改行を入れたらどうなるでしょうか？<br>
+				次のようにプログラムを書き換えて実行してみましょう。
+			</p>
+			<div class="code">
+<span class="filename">w01-01-hello.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+ 
+int main() {
+  printf("Hello, world!
+  ");
+}
+</script>
+			</div>
+			<p>
+				コンパイルできたでしょうか？<br>
+				きっと、コンパイラは何かしらのエラーメッセージを出して終了しているはずです。<br>
+				つまり、<code>""</code>は1行で完結させなければいけません。
+			</p>
+			<p>
+				では、次のようなプログラムだとどのような出力が得られるでしょうか？
+			</p>
+			<div class="code">
+<span class="filename">w01-01-hello.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+ 
+int main() {
+  printf("Hello, ");
+  printf("world!");
+  printf("\n");
+}
+</script>
+			</div>
+			<p>
+				一番最初のプログラムと同じ結果が得られるはずです。<br>
+				つまり、<code>printf</code>関数では改行は自動では行われないということです。
+			</p>
+		</section>
+		<section class="kadai">
+			<h3>演習</h3>
+			<dl>
+				<dt>演習1-1</dt>
+				<dd>自身の手元で上記のプログラムを実行しなさい。プログラムの一部を省くと、どんなエラーメッセージが表示されるか、試しなさい。</dd>
+				<dt>演習1-2</dt>
+				<dd><code>printf</code>の引数に<code>\x</code>を含めるとどうなるかを試しなさい。</dd>
+			</dl>
+		</section>
+	</section>
+	<section>
+		<h2>変数と数値計算 （1.2節 変数と算術式）</h2>
+		<p>
+			画面に文字列を表示できるようになったので、次は、変数と数値計算を行うプログラムを書きましょう。<br>
+			例として、華氏・摂氏の温度の対応表を、℃=(5/9)(℉-32) という公式を使って計算し下記のように表示します。
+		</p>
+		<code><pre>0   -17
+20  -6
+40  4
+...中略...
+260 126
+280 137
+300 148
+</pre></code>
+		<section>
+			<h3>基本プログラム</h3>
+			<p>
+				emacsで<code>w01-02-fahr.c</code>というファイルを作成して編集します。
+			</p>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>emacs w01-02-fahr.c &
+</script>
+			</div>
+			<div class="code">
+<span class="filename">w01-02-fahr.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int fahr, celsius; /* 変数の定義 */
+  int lower, upper, step;
+
+  lower = 0; /* 数値の代入 */
+  upper = 300;
+  step = 20;
+
+  fahr = lower;
+  while (fahr <= upper) {
+    celsius = 5 * (fahr - 32) / 9;
+    printf("%d\t%d\n", fahr, celsius);
+    fahr = fahr + step;
+  }
+}
+</script>
+			</div>
+			<p>
+				プログラムが書けたら保存し、コンパイル・実行してみましょう。<br>
+				華氏・摂氏の対応表が出力されれば成功です。
+			</p>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w01-02-fahr.c
+ls
+# a.out  w01-02-fahr.c  ⇒ と表示されるはず
+./a.out
+# 0   -17
+# 20  -6
+# ...      ⇒ と表示されるはず
+</script>
+			</div>
+		</section>
+		<section class="advanced" id="adv-p1-02">
+			<h3>コードの解説（おまけ）</h3>
+			<div class="adv-content">
+				<p class="adv-msg">
+					上記のコードのそれぞれの部分が何の処理をしているのかについて解説します。<br>
+					興味のある学生は読んでみて下さい。
+				</p>
+				<div class="adv-more" onclick="document.getElementById('adv-p1-02').classList.toggle('shown');"></div>
+				<div class="adv-body">
+					<div class="code">
+<span class="filename">w01-02-fahr.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int fahr, celsius; /* ★1 変数の定義 */
+  int lower, upper, step;
+
+  lower = 0; /* ★2 数値の代入 */
+  upper = 300;
+  step = 20;
+
+  fahr = lower; /* ★3 */
+  while (fahr <= upper) { /* ★4 */
+    celsius = 5 * (fahr - 32) / 9; /* ★5 */
+    printf("%d\t%d\n", fahr, celsius); /* ★6 */
+    fahr = fahr + step; /* ☆4 */
+  }
+}
+</script>
+					</div>
+					<p>
+						★1: 変数（数値を入れておく箱のようなもの）の定義を定義する文です。
+						未定義の変数を使おうとすると、C言語ではコンパイルエラーが生じます（言語によって異なる）。
+						<code>int</code>はデータの型（この場合は整数型）を示しており、その後に続く文字（<code>fahr</code>や<code>celsius</code>）が変数を表します。
+						データの型は他に、<code>float</code>（浮動小数点型）や<code>char</code>（文字列型）などがあります。
+					</p>
+					<p>
+						★2: ★1の部分で定義した変数に数値を代入（格納）する文です。
+						データの型が一致している必要があります。
+						この例では<code>lower</code>という変数は<code>int</code>型と定義されているので、整数のみが代入可能です。
+					</p>
+					<p>
+						★3: 変数の内容を別の変数に代入する文です。
+						ここでは、<code>fahr</code>に<code>lower</code>（=0）を代入しています。
+					</p>
+					<p>
+						★4: 繰り返しコマンドです。
+						<code>fahr <= upper</code>（<code>fahr</code>が、<code>upper</code>以下である）と言う条件を満たしている限り、中括弧（<code>{ }</code>）で囲まれた範囲が繰り返し実行されます。この例だと、条件を満たす限り、13〜15行目の3行が繰り返されます。
+						15行目（☆4）は、<code>fahr</code>に、<code>fahr + step</code>の結果を代入しているため、<code>fahr</code>は繰り返すたびに20ずつ増えていき、最終的に<code>upper</code>よりも大きくなります。つまり、繰り返し条件を満たさなくなるので、ループから抜け出します。
+						この条件が更新されないような（ずっと条件が満たした状態から変わらない）コードを実行すると、いわゆる『無限ループ』の状態に陥るので注意が必要です。
+					</p>
+					<p>
+						★5: 華氏を摂氏に変換する計算をする文です。ここでは計算に使われている変数や数値が全て整数型なので、計算結果も小数点以下が切り捨てられます。
+					</p>
+					<p>
+						★6: 華氏（<code>fahr</code>）と摂氏（<code>celsius</code>）の変数に入っている数値を標準出力（ディスプレイ）に出力する文です。
+						第1引数は「2つの整数を間にタブ（<code>\t</code>）を挟んで出力せよ」という意味の指示です。<code>%d</code>というのは第2引数以降で与えられた整数を出力する場所を示しています。
+						つまり、<code>%d\t%d</code>は、整数1の出力場所+タブ+整数2の出力場所と言う意味となる。
+					</p>
+				</div>
+			</div>
+		</section>
+		<section>
+			<h3>発展： 小数を扱う</h3>
+			<p>
+				華氏・摂氏の変換式を見たらわかるように、変換結果は整数にはならず、実数になるはずですね。
+				そこで、変数の型を<code>float</code>（浮動小数点型）に変えて実装し直してみましょう。
+			</p>
+			<div class="code">
+<span class="filename">w01-03-fahr-float.c</span>
+<script type="text/plain" class="language-c line-numbers" data-line="4,13,14"
+>#include <stdio.h>
+
+int main() {
+  float fahr, celsius;
+  int lower, upper, step;
+
+  lower = 0;
+  upper = 300;
+  step = 20;
+  fahr = lower;
+
+  while (fahr <= upper) {
+  	celsius = (5.0 / 9.0) * (fahr - 32.0);
+    printf("%3.0f\t%6.1f\n", fahr, celsius);
+    fahr = fahr + step;
+  }
+}
+</script>
+			</div>
+			<p>
+				<code>fahr</code>と<code>celsius</code>の変数を<code>float</code>（浮動小数点型）として定義し、
+				13行目で実数同士の計算を行っています。結果はもちろん実数になります。
+				結果の出力の際には、先程までは<code>%d</code>を使っていましたが、浮動小数点型の場合は<code>%f</code>を使います（<code>%</code>と<code>f</code>の間の数字は出力する数値を小数点以下何桁まで出力するか、といったことを指示しています）。
+			</p>
+			<aside>
+				整数型と浮動小数点型が混ざった計算では、整数型の数値は自動的に浮動小数点型に変換されるため、
+				本来は13行目の<code>5.0</code>などはわざわざ<code>.0</code>を書く必要はありません。
+				ただ、こうすることによって「この行は実数の計算を行っている文なのだ」と視覚的にわかりやすいプログラムになります。
+			</aside>
+		</section>
+		<section>
+			<h3>発展2： 新しい関数を定義する</h3>
+			<div class="code">
+<span class="filename">w01-04-fahr2selcius.c</span>
+<script type="text/plain" class="language-c line-numbers" data-line="3-7,19"
+>#include <stdio.h>
+
+float fahr_to_celsius(float fahr) {
+  float celsius;
+  celsius = (5.0 / 9.0) * (fahr - 32.0);
+  return celsius;
+}
+
+int main() {
+  float fahr, celsius;
+  int lower, upper, step;
+
+  lower = 0;
+  upper = 300;
+  step = 20;
+  fahr = lower;
+
+  while (fahr <= upper) {
+    celsius = fahr_to_celsius(fahr);
+    printf("%3.0f\t%6.1f\n", fahr, celsius);
+    fahr = fahr + step;
+  }
+}
+</script>
+			</div>
+		</section>
+		<section class="kadai">
+			<h3>演習</h3>
+			<dl>
+				<dt>演習1-3</dt>
+				<dd>
+					表の上に「Fahr-Celsius Tab. (0-300)」という見出しを表示するようにプログラムを改変しなさい。
+					なお、カッコ内の数値「0」と「300」はそれぞれ変数<code>lower</code>,<code>upper</code>の内容を出力すること。
+				</dd>
+				<dt>演習1-4</dt>
+				<dd>
+					温度を摂氏から華氏に変換するプログラム（つまり、<code>celsius_to_fahr</code>の関数）を作成しなさい。
+					下記のプログラムの5行目を書き換えます。
+					<div class="code">
+<span class="filename">w01-05-celsius2fahr.c</span>
+<script type="text/plain" class="language-c line-numbers" data-line="3-5,17"
+>#include <stdio.h>
+
+float celsius_to_fahr(float celsius) {
+	/* ここを実装する */
+}
+
+int main() {
+  float fahr, celsius;
+  int lower, upper, step;
+
+  lower = 0;
+  upper = 300;
+  step = 20;
+  celsius = lower;
+
+  while (celsius <= upper) {
+    fahr = celsius_to_fahr(celsius);
+    printf("%6.1f\t%3.0f\n", celsius, fahr);
+    celsius = celsius + step;
+  }
+}
+</script>
+					</div>
+				</dd>
+			</dl>
+		</section>
+	</section>
+</div>
+<footer>
+	更新： 2024年6月10日
+</footer>
+</body>
+<!-- Prism.js -->
+<link href="https://unpkg.com/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" />
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<!-- Line Number -->
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+<link href="https://unpkg.com/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+<!-- Line HighLight -->
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/line-highlight/prism-line-highlight.min.js"></script>
+<link href="https://unpkg.com/prismjs@1.29.0/plugins/line-highlight/prism-line-highlight.min.css" rel="stylesheet" />
+<!-- Unescaped Markup -->
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
+<link href="https://unpkg.com/prismjs@1.29.0/plugins/unescaped-markup/prism-unescaped-markup.min.css" rel="stylesheet" />
+</html>
