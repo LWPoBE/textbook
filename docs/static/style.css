@@ -156,6 +156,9 @@ section.kadai dl dd > code {
 	font-size: 0.9rem;
 	color: #c00;
 }
+section p > code > a {
+	text-decoration: none;
+}
 div.code {
 	display: block;
 	padding: 10px;
@@ -163,6 +166,7 @@ div.code {
 section > code,
 section > code pre,
 section > p > code,
+section > p > code > a,
 div.code * {
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 }

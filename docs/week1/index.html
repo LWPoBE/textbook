@@ -38,13 +38,13 @@
 		<h2>準備</h2>
 		<p>
 			まずは、端末（ターミナル）を開き、今日の作業をするためのフォルダを作成・移動しましょう。
-			ルート（<code>~/</code>）やデスクトップ上（~/Desktop/）に<code>kiso-jikken</code>というフォルダを作り、更にその中に今日の日付のフォルダ（<code>20240611</code>）を作成します。
+			ルート（<code>~/</code>）やデスクトップ上（~/Desktop/）に<code>kiso-jikken</code>というフォルダを作り、更にその中に今日の日付のフォルダ（<code>20240610</code>）を作成します。
 			そして、作成したフォルダに移動します。</p>
 		<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->mkdir -p kiso-jikken/20240611
-cd kiso-jikken/20240611
+>mkdir -p kiso-jikken/20240610
+cd kiso-jikken/20240610
 </script>
 		</div>
 		<aside>
@@ -69,12 +69,12 @@ cd kiso-jikken/20240611
 		<section>
 			<h3>基本プログラム</h3>
 			<p>
-				emacsで<code>w01-01-hello.c</code>というファイルを作成して編集します。
+				emacsで<code>w1-p1-hello.c</code>というファイルを作成して編集します。
 			</p>
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->emacs w01-01-hello.c &
+>emacs w1-p1-hello.c &
 </script>
 			</div>
 			<p>
@@ -83,14 +83,14 @@ cd kiso-jikken/20240611
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->nano w01-01-hello.c
+>nano w1-p1-hello.c
 </script>
 			</div>
 			<p>
 				nanoで保存するときは<code>Ctrl + o → Enter</code>、終了するときは<code>Ctrl + x → Enter</code>です。
 			</p>
 			<div class="code">
-<span class="filename">w01-01-hello.c</span>
+<span class="filename">w1-p1-hello.c</span>
 <script type="text/plain" class="language-c line-numbers"
 >#include <stdio.h>
  
@@ -110,9 +110,9 @@ int main() {
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->cc w01-01-hello.c
+>cc w1-p1-hello.c
 ls
-# a.out  w01-01-hello.c  ⇒ と表示されるはず（a.outが増えている）
+# a.out  w1-p1-hello.c  ⇒ と表示されるはず（a.outが増えている）
 ./a.out
 # Hello, world!  ⇒ と表示されるはず
 </script>
@@ -132,7 +132,7 @@ ls
 				<div class="adv-more" onclick="document.getElementById('adv-p1-01').classList.toggle('shown');"></div>
 				<div class="adv-body">
 					<div class="code">
-<span class="filename">w01-01-hello.c</span>
+<span class="filename">w1-p1-hello.c</span>
 <script type="text/plain" class="language-c line-numbers"
 >#include <stdio.h> // ★1
   
@@ -172,7 +172,7 @@ int main() { // ★2
 				次のようにプログラムを書き換えて実行してみましょう。
 			</p>
 			<div class="code">
-<span class="filename">w01-01-hello.c</span>
+<span class="filename">w1-p1-hello.c</span>
 <script type="text/plain" class="language-c line-numbers"
 >#include <stdio.h>
  
@@ -191,7 +191,7 @@ int main() {
 				では、次のようなプログラムだとどのような出力が得られるでしょうか？
 			</p>
 			<div class="code">
-<span class="filename">w01-01-hello.c</span>
+<span class="filename">w1-p1-hello.c</span>
 <script type="text/plain" class="language-c line-numbers"
 >#include <stdio.h>
  
@@ -234,16 +234,16 @@ int main() {
 		<section>
 			<h3>基本プログラム</h3>
 			<p>
-				emacsで<code>w01-02-fahr.c</code>というファイルを作成して編集します。
+				emacsで<code>w1-p2-fahr.c</code>というファイルを作成して編集します。
 			</p>
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->emacs w01-02-fahr.c &
+>emacs w1-p2-fahr.c &
 </script>
 			</div>
 			<div class="code">
-<span class="filename">w01-02-fahr.c</span>
+<span class="filename">w1-p2-fahr.c</span>
 <script type="text/plain" class="language-c line-numbers"
 >#include <stdio.h>
 
@@ -271,9 +271,9 @@ int main() {
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->cc w01-02-fahr.c
+>cc w1-p2-fahr.c
 ls
-# a.out  w01-02-fahr.c  ⇒ と表示されるはず
+# a.out  w1-p2-fahr.c  ⇒ と表示されるはず
 ./a.out
 # 0   -17
 # 20  -6
@@ -291,7 +291,7 @@ ls
 				<div class="adv-more" onclick="document.getElementById('adv-p1-02').classList.toggle('shown');"></div>
 				<div class="adv-body">
 					<div class="code">
-<span class="filename">w01-02-fahr.c</span>
+<span class="filename">w1-p2-fahr.c</span>
 <script type="text/plain" class="language-c line-numbers"
 >#include <stdio.h>
 
@@ -351,7 +351,7 @@ int main() {
 				そこで、変数の型を<code>float</code>（浮動小数点型）に変えて実装し直してみましょう。
 			</p>
 			<div class="code">
-<span class="filename">w01-03-fahr-float.c</span>
+<span class="filename">w1-p3-fahr-float.c</span>
 <script type="text/plain" class="language-c line-numbers" data-line="4,13,14"
 >#include <stdio.h>
 
@@ -386,7 +386,7 @@ int main() {
 		<section>
 			<h3>発展2： 新しい関数を定義する</h3>
 			<div class="code">
-<span class="filename">w01-04-fahr2selcius.c</span>
+<span class="filename">w1-p4-fahr-func.c</span>
 <script type="text/plain" class="language-c line-numbers" data-line="3-7,19"
 >#include <stdio.h>
 
@@ -427,7 +427,7 @@ int main() {
 					温度を摂氏から華氏に変換するプログラム（つまり、<code>celsius_to_fahr</code>の関数）を作成しなさい。
 					下記のプログラムの5行目を書き換えます。
 					<div class="code">
-<span class="filename">w01-05-celsius2fahr.c</span>
+<span class="filename">ex1-4.c</span>
 <script type="text/plain" class="language-c line-numbers" data-line="3-5,17"
 >#include <stdio.h>
 
@@ -458,7 +458,7 @@ int main() {
 	</section>
 </div>
 <footer>
-	更新： 2024年6月10日
+	更新： 2025年5月20日
 </footer>
 </body>
 <!-- Prism.js -->

@@ -35,11 +35,512 @@
 		</ul>
 	</section>
 	<section>
-		<h2>作成中</h2>
+		<h2>準備</h2>
+		<p>
+			まずは、端末（ターミナル）を開き、今日の作業をするためのフォルダを作成・移動しましょう。
+			前回作った<code>kiso-jikken</code>というフォルダの中に今日の日付のフォルダ（<code>20240617</code>）を作成します。
+			そして、作成したフォルダに移動します。</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cd kiso-jikken/
+mkdir 20240617
+cd 20240617
+</script>
+		</div>
+	</section>
+	<section>
+		<h2>繰り返し処理（1.3節 For文）</h2>
+		<section>
+			<p>
+				先の例では、繰り返し処理の方法として<code>while</code>文を使いました。
+				ここではもう一つの方法として<code>for</code>文を見ていきます。
+				<code>while</code>文では引数として繰り返しの条件のみを記載していましたが、
+				<code>for</code>文では引数として3つの文が必要です（<code>;</code>で区切る）。
+			</p>
+			<p>それぞれの文は、それぞれ以下の役割があります。</p>
+			<ul>
+				<li>初期化文（最初に一度だけ実行される文）</li>
+				<li>繰り返し条件文（繰り返す度に評価される文。条件を満たしたときのみ繰り返す）</li>
+				<li>変化文（各繰り返しが終わるごとに実行される文。条件となる変数を変化させるところ）</li>
+			</ul>
+			<div class="code">
+<span class="filename">w2-p1-fahr-for.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int fahr;
+
+  for(fahr = 0; fahr <= 300; fahr = fahr + 20) {
+    printf("%3d\t%6.1f\n", fahr, (5.0 / 9.0) * (fahr - 32));
+  }
+}
+</script>
+			</div>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w2-p1-fahr-for.c
+./a.out
+</script>
+			</div>
+		</section>
+		<section class="kadai">
+			<h3>演習</h3>
+			<dl>
+				<dt>演習1-5</dt>
+				<dd>温度換算プログラムに手を加えて、表を逆順に（300度から0度へという順に）表示するように直しなさい。</dd>
+			</dl>
+		</section>
+		<section class="advanced" id="ex1-5">
+			<h3>演習1-5の解答</h3>
+			<div class="adv-content">
+				<div class="adv-more" onclick="document.getElementById('ex1-5').classList.toggle('shown');"></div>
+				<div class="adv-body">
+					<div class="code">
+<span class="filename">ex1-5.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int fahr;
+
+  for (fahr = 300; 0 <= fahr; fahr = fahr - 20) {
+    printf("%3d %6.1f\n", fahr, (5.0 / 9.0) * (fahr - 32));
+  }
+}
+</script>
+					</div>
+					<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc ex1-5.c
+./a.out
+</script>
+					</div>
+				</div>
+			</div>
+		</section>
+	</section>
+	<section>
+		<h2>定数（1.4節 記号定数）</h2>
+		<section>
+			<div class="code">
+<span class="filename">w2-p2-fahr-define.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+#define LOWER 0
+#define UPPER 300
+#define STEP  20
+
+int main() {
+  int fahr;
+
+  for(fahr = LOWER; fahr <= UPPER; fahr = fahr + STEP) {
+    printf("%3d\t%6.1f\n", fahr, (5.0 / 9.0) * (fahr - 32));
+  }
+}
+</script>
+			</div>
+			<aside>
+				一般に定数は、他の変数と区別するために「全て大文字」で書くことが多いです。<br>
+				<code>#define</code>の行は、<code>#include</code>と同じく行末にセミコロン（<code>;</code>）が入らないので注意。
+			</aside>
+		</section>
+	</section>
+	<section>
+		<h2>文字入出力（1.5節 文字入出力）</h2>
+		<p>文字入出力プログラムを書いていきます。</p>
+		<section>
+			<h3>ファイルを読み込む（1.5.1項 ファイルの複写）</h3>
+			<p>
+				テキストファイルを読み込むプログラムを書いてみましょう。
+			</p>
+			<div class="code">
+<span class="filename">w2-p3-getchar.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int c;
+
+  c = getchar();
+  while(c != EOF) {
+  	putchar(c);
+  	c = getchar();
+  }
+}
+</script>
+			</div>
+			<aside>
+				<code>getchar()</code>は、与えた文字列を前から順番に一文字ずつ取得する関数です。
+			</aside>
+			<aside>
+				<code>EOF</code>は、End of File の略で、ファイルの終端を示す文字です。
+			</aside>
+			<p>
+				ファイルを読み込んでみましょう。<br>
+				読み込むサンプルファイル（<code><a href="data.txt">data.txt</a></code>）をダウンロードして、プログラムと同じフォルダに置きます。<br>
+				そして、<code>cc</code>または<code>gcc</code>コマンドでプログラムをコンパイルし、実行します。
+			</p>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w2-p3-getchar.c
+./a.out < data.txt
+</script>
+			</div>
+			<p>
+				上記のプログラムでは、<code>c = getchar();</code>という同じコードが2回登場します。
+				できればシンプルにしたいですね。そこで、<code>while</code>の引数にこのコードを埋め込んでみましょう。
+			</p>
+			<div class="code">
+<span class="filename">w2-p4-getchar-short.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int c;
+
+  while((c = getchar()) != EOF) {
+  	putchar(c);
+  }
+}
+</script>
+			</div>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w2-p4-getchar-short.c
+./a.out < data.txt
+</script>
+			</div>
+			<p>
+				<code>while</code>の引数<code>((c = getchar()) != EOF)</code>は、まず<code>(c = getchar())</code>の文が実行されます。この文の実行結果は<code>getchar()</code>の値になります。そして、その後<code>(getchar() != EOF)</code>が実行されます。
+			</p>
+		</section>
+		<section class="kadai">
+			<h3>演習</h3>
+			<dl>
+				<dt>演習1-6</dt>
+				<dd><code>getchar() != EOF</code>という式の値が<code>0</code>か<code>1</code>であることを確認せよ。</dd>
+				<dt>演習1-7</dt>
+				<dd><code>EOF</code>を印字するプログラムを書け。</dd>
+			</dl>
+		</section>
+		<section class="advanced" id="ex1-6">
+			<h3>演習1-6の解答</h3>
+			<div class="adv-content">
+				<div class="adv-more" onclick="document.getElementById('ex1-6').classList.toggle('shown');"></div>
+				<div class="adv-body">
+					<div class="code">
+<span class="filename">ex1-6.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int c;
+
+  while((c = getchar()) != EOF) {
+    putchar(c);
+    printf("\t(c = getchar()) != EOF ... %d\n", c != EOF);
+  }
+  printf("\t(c = getchar()) != EOF ... %d\n", c != EOF);
+}
+</script>
+					</div>
+					<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc ex1-6.c
+./a.out < data.txt
+</script>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="advanced" id="ex1-7">
+			<h3>演習1-7の解答</h3>
+			<div class="adv-content">
+				<div class="adv-more" onclick="document.getElementById('ex1-7').classList.toggle('shown');"></div>
+				<div class="adv-body">
+					<div class="code">
+<span class="filename">ex1-7.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  printf("EOF = %d\n", EOF);
+}
+</script>
+					</div>
+					<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc ex1-7.c
+./a.out
+</script>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section>
+			<h3>文字数カウント（1.5.2項 文字のカウント）</h3>
+			<p>
+				ファイルが読み込めるようになったので、次はファイルの中にある文字数のカウントをしてみましょう。
+			</p>
+			<div class="code">
+<span class="filename">w2-p5-countchar.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  long nc;
+
+  nc = 0;
+  while(getchar() != EOF) {
+  	nc++;
+  }
+  printf("%ld\n", nc);
+}
+</script>
+			</div>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w2-p5-countchar.c
+./a.out < data.txt
+</script>
+			</div>
+			<p>
+				<code>nc++;</code>は、<code>nc = nc + 1;</code>と同じ意味で、変数に1を足す処理を表します。
+				逆に<code>nc--;</code>とすると、変数から1を引く処理（<code>nc = nc - 1;</code>）が実行されます。
+			</p>
+			<aside>
+				<code>long</code>型は<code>long int</code>の略で、<code>int</code>型よりも大きい数を取り扱えます。
+			</aside>
+			<p>上記のコードを<code>for</code>文を使って書き換えてみましょう。</p>
+			<div class="code">
+<span class="filename">w2-p6-countchar-for.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  double nc; 
+ 
+  for(nc = 0; getchar() != EOF; nc++) { }
+  printf("%.0f\n", nc);
+}
+</script>
+			</div>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w2-p6-countchar-for.c
+./a.out < data.txt
+</script>
+			</div>
+			<p>
+				<code>for</code>文の「変化文（3つめの文）」のところで<code>nc++</code>が実行されており、<code>for</code>文の中身で行うべき作業は特にないため、空になっています。
+			</p>
+		</section>
+		<section>
+			<h3>行数カウント（1.5.3項 行数のカウント）</h3>
+			<p>
+				次はファイルの行数をカウントしてみましょう。
+			</p>
+			<div class="code">
+<span class="filename">w2-p7-countrow.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int c, nl;
+
+  nl = 0;
+  while((c = getchar()) != EOF) {
+  	if(c == '\n') {
+	   	nl++;
+  	}
+  }
+  printf("%d\n", nl);
+}
+</script>
+			</div>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w2-p7-countrow.c
+./a.out < data.txt
+</script>
+			</div>
+		</section>
+		<section class="kadai">
+			<h3>演習</h3>
+			<p>この演習では、別のテキストファイル（<code><a href="data-ex.txt">data-ex.txt</a></code>）を使うこと。</p>
+			<dl>
+				<dt>演習1-8</dt>
+				<dd>空白、タブ、改行を数えるプログラムを書け。</dd>
+				<dt>演習1-9</dt>
+				<dd>二つ以上の空白を一つの空白に置き換えながら、入力を出力に複写するプログラムを書け。</dd>
+				<dt>演習1-10</dt>
+				<dd>各タブを<code>\t</code>に、各改行を<code>\n</code>に、各バックスラッシュを<code>\\</code>に置き換えながら、入力を出力に複写するプログラムを書け。（Windowsの場合は<code>\n</code>のところでエラーが起きるかも知れないのでその場合は、改行を置き換えるコードは省略してください）</dd>
+			</dl>
+		</section>
+		<section class="advanced" id="ex1-8">
+			<h3>演習1-8の解答</h3>
+			<div class="adv-content">
+				<div class="adv-more" onclick="document.getElementById('ex1-8').classList.toggle('shown');"></div>
+				<div class="adv-body">
+					<div class="code">
+<span class="filename">ex1-8.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int c, ns, nt, nnl;
+
+  ns = nt = nnl = 0;
+  while((c = getchar()) != EOF) {
+    if(c == ' '){
+      ns++;
+    } else if(c == '\t'){
+      nt++;
+    } else if(c == '\n'){
+      nnl++;
+    }
+  }
+  printf("space: %d, tab: %d, line-break: %d\n", ns, nt, nnl);
+}
+</script>
+					</div>
+					<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc ex1-8.c
+./a.out < data-ex.txt
+</script>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="advanced" id="ex1-9">
+			<h3>演習1-9の解答</h3>
+			<div class="adv-content">
+				<div class="adv-more" onclick="document.getElementById('ex1-9').classList.toggle('shown');"></div>
+				<div class="adv-body">
+					<div class="code">
+<span class="filename">ex1-9.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main(){
+  int c;
+  while((c = getchar()) != EOF){
+    if(c == ' '){
+      while(c == ' '){
+        c = getchar();
+      }
+      putchar(' ');
+    }
+    putchar(c);
+  }
+}
+</script>
+					</div>
+					<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc ex1-9.c
+./a.out < data-ex.txt
+</script>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="advanced" id="ex1-10">
+			<h3>演習1-10の解答</h3>
+			<div class="adv-content">
+				<div class="adv-more" onclick="document.getElementById('ex1-10').classList.toggle('shown');"></div>
+				<div class="adv-body">
+					<div class="code">
+<span class="filename">ex1-10.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+int main() {
+  int c;
+  while((c = getchar()) != EOF){
+    if(c == '\t'){
+      printf("\\t");
+    } else if(c == '\n'){
+      printf("\\n");
+    } else if(c == '\\'){
+      printf("\\\\");
+    } else{
+      putchar(c);
+    }
+  }
+}
+</script>
+					</div>
+					<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc ex1-10.c
+./a.out < data-ex.txt
+</script>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section>
+			<h3>単語数カウント（1.5.4項 単語のカウント）</h3>
+			<p>
+				次はファイルに含まれる単語の数をカウントしてみましょう。
+			</p>
+			<div class="code">
+<span class="filename">w2-p8-countword.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+#define IN  1
+#define OUT 0
+
+int main() {
+  int c, nl, nw, nc, state;
+
+  state = OUT;
+  nl = nw = nc = 0;
+  while((c = getchar()) != EOF) {
+  	nc++;
+  	if(c == '\n') { nl++; }
+  	if(c == ' ' || c == '\n' || c == '\t') {
+  		state = OUT;
+  	} else if(state == OUT) {
+  		state = IN;
+  		nw++;
+  	}
+  }
+  printf("char: %d, line: %d, word: %d\n", nc, nl, nw);
+}
+</script>
+			</div>
+			<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w2-p8-countword.c
+./a.out < data.txt
+</script>
+			</div>
+		</section>
+	</section>
 	</section>
 </div>
 <footer>
-	更新： 2024年6月10日
+	更新： 2025年5月20日
 </footer>
 </body>
 <!-- Prism.js -->
