@@ -379,6 +379,12 @@ section.auth .submit {
 section.auth .submit:hover {
 	opacity: 0.8;
 }
+div.loading {
+	padding: 200px;
+	text-align: center;
+	font-size: 1.5rem;
+	color: #ccc;
+}
 footer {
 	background: #666;
 	padding: 60px 30px 20px;

@@ -1,6 +1,7 @@
 var app = new Vue({
   el: "#app",
   data: {
+    isAuthorized: false,
   },
   mounted(){
     this.authUser();
@@ -12,8 +13,10 @@ var app = new Vue({
       axios
         .post(api, query, { timeout: 10000 })
         .then(response => {
-          console.log("[authUser]", response, response.data.status);
-          if(response.status != 200) {
+          console.log("[authUser]", response, response.status);
+          if(response.status == 200) {
+            this.isAuthorized = true;
+          } else {
             location.replace("/textbook/auth/");
           }
         }).catch(err => {
