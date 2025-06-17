@@ -183,7 +183,7 @@ int main() {
 			</aside>
 			<p>
 				ファイルを読み込んでみましょう。<br>
-				読み込むサンプルファイル（<code><a href="data.txt">data.txt</a></code>）をダウンロードして、プログラムと同じフォルダに置きます。<br>
+				読み込むサンプルファイル（<code><a href="data/data.txt">data.txt</a></code>）をダウンロードして、プログラムと同じフォルダに置きます。<br>
 				そして、<code>cc</code>または<code>gcc</code>コマンドでプログラムをコンパイルし、実行します。
 			</p>
 			<div class="code">
@@ -236,6 +236,9 @@ int main() {
 			<div class="adv-content">
 				<div class="adv-more" onclick="document.getElementById('ex1-6').classList.toggle('shown');"></div>
 				<div class="adv-body">
+					<aside>
+						ヒント： 先程の<code>w2-p4-getchar-short.c</code>をベースに、<code>c != EOF</code>の値を<code>printf</code>で出力するプログラムを実装してください。なお、<code>c != EOF</code>の結果はint型のデータになります。
+					</aside>
 					<div class="code">
 <span class="filename">ex1-6.c</span>
 <script type="text/plain" class="language-c line-numbers"
@@ -267,6 +270,10 @@ int main() {
 			<div class="adv-content">
 				<div class="adv-more" onclick="document.getElementById('ex1-7').classList.toggle('shown');"></div>
 				<div class="adv-body">
+					<aside>
+						ヒント： <code>EOF</code>を<code>printf</code>で出力するコードを実装してください。
+						なお、<code>EOF</code>はint型のデータが入った変数です。
+					</aside>
 					<div class="code">
 <span class="filename">ex1-7.c</span>
 <script type="text/plain" class="language-c line-numbers"
@@ -380,7 +387,7 @@ int main() {
 		</section>
 		<section class="kadai">
 			<h3>演習</h3>
-			<p>この演習では、別のテキストファイル（<code><a href="data-ex.txt">data-ex.txt</a></code>）を使うこと。</p>
+			<p>この演習では、別のテキストファイル（<code><a href="data/data-ex.txt">data-ex.txt</a></code>）を使うこと。</p>
 			<dl>
 				<dt>演習1-8</dt>
 				<dd>空白、タブ、改行を数えるプログラムを書け。</dd>
@@ -395,6 +402,11 @@ int main() {
 			<div class="adv-content">
 				<div class="adv-more" onclick="document.getElementById('ex1-8').classList.toggle('shown');"></div>
 				<div class="adv-body">
+					<aside>
+						ヒント： 空白・タブ・改行をカウントするための変数<code>ns</code>、<code>nt</code>、<code>nnl</code>を使ってそれぞれの出現回数をカウントします。
+						具体的には、<code>while</code>文で取得した<code>c</code>の中身をチェックして、
+						空白ならば<code>ns</code>を+1、タブなら<code>nt</code>を+1、改行なら<code>nnl</code>を+1するプログラムを実装する。
+					</aside>
 					<div class="code">
 <span class="filename">ex1-8.c</span>
 <script type="text/plain" class="language-c line-numbers"
@@ -432,6 +444,9 @@ int main() {
 			<div class="adv-content">
 				<div class="adv-more" onclick="document.getElementById('ex1-9').classList.toggle('shown');"></div>
 				<div class="adv-body">
+					<aside>
+						ヒント： <code>c</code>が空白のとき、空白でない文字列が現れるまで次の文字列を取得し続け（ループ）、ループを抜けたときに、一つだけ空白を出力し、次の文字へと進むプログラムを実装する
+					</aside>
 					<div class="code">
 <span class="filename">ex1-9.c</span>
 <script type="text/plain" class="language-c line-numbers"
@@ -466,6 +481,9 @@ int main(){
 			<div class="adv-content">
 				<div class="adv-more" onclick="document.getElementById('ex1-10').classList.toggle('shown');"></div>
 				<div class="adv-body">
+					<aside>
+						ヒント： <code>c</code>の中身をチェックして、<code>c</code>がタブなら<code>\\t</code>を、改行なら<code>\\n</code>を、\\なら<code>\\\\</code>を、それ以外なら文字をそのまま出力するプログラムを実装する
+					</aside>
 					<div class="code">
 <span class="filename">ex1-10.c</span>
 <script type="text/plain" class="language-c line-numbers"
