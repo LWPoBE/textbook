@@ -36,7 +36,466 @@
 		</ul>
 	</section>
 	<section>
-		<h2>作成中</h2>
+		<h2>今日の目標</h2>
+		<ul>
+			<li>ニュートン法をC言語で記述する。</li>
+			<li>最終レポートに掲載する実験結果等を準備し、提出する。
+				<ul>
+					<li>C言語のプログラムの設計方針、各部分の解説なども含む。</li>
+					<li>自分のプログラムで以前の実験結果を作り直す。</li>
+				</ul>
+				また、関数や初期値を変えて実験する。
+			</li>
+		</ul>
+		<aside>
+			作成： T. Migita 2024<br>
+			再構成： Y. Matsuda 2025
+		</aside>
+	</section>
+	<section>
+		<h2>準備</h2>
+		<p>
+			まずは、端末（ターミナル）を開き、今日の作業をするためのフォルダを作成・移動しましょう。
+			前回作った<code>kiso-jikken</code>というフォルダの中に今日の日付のフォルダ（<code>20250701</code>）を作成します。
+			そして、作成したフォルダに移動します。</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cd kiso-jikken/
+mkdir 20250701
+cd 20250701
+</script>
+		</div>
+	</section>
+	<section>
+		<h2>ニュートン法</h2>
+		<p>
+			ニュートン法とは、関数の接線を使って方程式の解（ゼロ点）を反復的に近似していく数値解法です。
+			ニュートン法の中心部分は次の式で表されます。
+			\[x_{k+1}=x_{k}-\frac{f(x_{k})}{f'(x_{k})}\]
+			これをC言語で書けば、例えば次のようになります。
+		</p>
+		<div class="code">
+<span class="filename">C言語（ニュートン法の中心部分）</span>
+<script type="text/plain" class="language-c"
+>x[k+1] = x[k] - f(x[k]) / f1(x[k]);
+</script>
+		</div>
+		<p>
+			添字 \({}_k\) を持つは変数 \(x_k\) は、配列の参照番号を使って表すことができます。
+			なお、実数配列<code>x</code>と整数<code>k</code>の宣言が必要です。
+		</p>
+		<div class="code">
+<span class="filename">C言語（配列xと整数kの宣言）</span>
+<script type="text/plain" class="language-c"
+>double x[101];	/* とりあえず、x[0]〜x[100]まで使えるようにしておく */
+int k;
+</script>
+		</div>
+		<p>
+			また、もともとの関数 \(f\) と一次導関数 \(f'\) は、それぞれ関数<code>f</code>・<code>f1</code>として定義できる。<br>
+			例えば、\( f(x) = x^2 - 2 \) の場合（ \( \therefore f'(x) = 2x \) ）には、以下のようになる。
+		</p>
+		<div class="code">
+<span class="filename">C言語（関数f・f1の定義）</span>
+<script type="text/plain" class="language-c"
+>double f(double x){
+  return x * x - 2;
+}
+
+double f1(double x){
+  return 2 * x;
+}
+</script>
+		</div>
+		<p>
+			以上をまとめると下記のようなC言語プログラムとなります。
+			なお、TODOと書かれた部分は自身で実装すること。
+		</p>
+		<div class="code">
+<span class="filename">w4-p1-newton.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+/* TODO: ここで f　と f1 を定義 */
+
+int main(){
+  /* TODO: ここで x と k を宣言 */
+
+  x[0] = 2;   /* 初期値 */
+  k = 0;
+
+  x[k+1] = x[k] - f(x[k]) / f1(x[k]);  k++; /* ニュートン法を数ステップ実行 */
+  x[k+1] = x[k] - f(x[k]) / f1(x[k]);  k++;
+  x[k+1] = x[k] - f(x[k]) / f1(x[k]);  k++;
+  x[k+1] = x[k] - f(x[k]) / f1(x[k]);  k++;
+  x[k+1] = x[k] - f(x[k]) / f1(x[k]);  k++;
+
+  printf("%.20f\n", x[k]);   /* 結果の表示 */
+
+  return 0;
+}
+</script>
+		</div>
+		<aside>
+			<code>k++</code>は、<code>k</code>に1を加えることを意味する。<br>
+			<code>%.20f</code>は、小数点以下20桁まで表示することを意味する。
+		</aside>
+		<p>
+			プログラムが書けたら、実行してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w4-p1-newton.c
+./a.out
+# 1.41421356237309514547
+</script>
+		</div>
+		<p>
+			なお、真値は \(\sqrt{2} = 1.41421356237309504880...\) となります。
+		</p>
+	</section>
+	<section>
+		<h2>ニュートン法をfor文を用いて書き換える</h2>
+		<p>
+			最初のプログラムでは何行にも渡り同じ計算を行っており、冗長です。
+			通常はfor文（または、while文）のループを用いて表現します。
+		</p>
+		<div class="code">
+<span class="filename">w4-p2-newton-for.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+
+/* TODO: ここで f　と f1 を定義 */
+
+int main(){
+  /* TODO: ここで x と k を宣言 */
+
+  x[0] = 2;   /* 初期値 */
+
+  for(k = 0; k < 10; k++){
+    printf("%2d %.20f\n", k, x[k]);   /* 過程の表示 */
+    x[k+1] = x[k] - f(x[k]) / f1(x[k]);
+  }
+
+  printf("%2d %.20f\n", k, x[k]);   /* 最終結果の表示 */
+
+  return 0;
+}
+</script>
+		</div>
+		<p>
+			プログラムが書けたら、実行してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w4-p2-newton-for.c
+./a.out
+#  0 2.00000000000000000000
+#  1 1.50000000000000000000
+#  2 1.41666666666666674068
+#  3 1.41421568627450988664
+#  4 1.41421356237468986983
+#  5 1.41421356237309514547
+#  6 1.41421356237309492343
+#  7 1.41421356237309514547
+#  8 1.41421356237309492343
+#  9 1.41421356237309514547
+# 10 1.41421356237309492343
+
+</script>
+		</div>
+		<p>
+			各行の右列の数字はニュートン法を \( k \) 回反復して得られた近似解となります。
+		</p>
+		<p>
+			\( k=0 \) の結果（\( 2.000... \)）は、最初の処理が行われる前（ニュートン法を適用する前）なので、初期値が表示されています。
+			ここから、\( k<=5 \) の間、徐々に \(\sqrt{2}\) の真値に近づいていることがわかります。
+			しかしながら、\( k=5 \) 以降、小数点以下14桁目以降が \( 514547 \) と \( 492343 \) の値を交互にとっています。
+		</p>
+		<p>
+			実はこれらの2つの数は、double型で表現できる数値のうち \( \sqrt{2} \) に近い2つになっています。
+			\[6369051672525773 / 2^{52} \approx 1.41421356237309514547... \]
+			\[6369051672525772 / 2^{52} \approx 1.41421356237309492343... \]
+			（表す数が 1 以上 2 未満の場合は、分母が \( 2^{52} \) であり、これ以外の範囲では異なる 2 の累乗が用いられます）。
+			演算の結果を正確に表現できない場合は、表現可能な最も近い値で近似された値が得られます。これを<b>「丸め（rounding）」</b>と言います。
+			double型の場合には有効数字は小数点以下15桁程度であり、16桁目以降はほぼ無意味といえます。つまり、今回の計算において \( k=6 \) 以降の計算は意味がありません。<br></p>
+	</section>
+	<section>
+		<h2>収束の状況（誤差）を計算する</h2>
+		<p>
+			ニュートン法は、同じ操作の繰り返しで徐々に真値に近づいていくようなアプローチなので、どのぐらい真値 \( a \) に近づいたかを表す「誤差 \( x_k - a \) 」に着目してグラフを描いてみよう。
+		</p>
+		<p>
+			先程のプログラムを修正して、<code>printf</code>をする際に誤差を出力するようにしてみます。
+		</p>
+		<div class="code">
+<span class="filename">w4-p3-newton-diff.c</span>
+<script type="text/plain" class="language-c line-numbers" data-line="8,12,16"
+>#include <stdio.h>
+
+/* TODO: ここで f　と f1 を定義 */
+
+int main(){
+  /* TODO: ここで x と k を宣言 */
+
+  double a = 1.41421356237309504880; /* 真値 √2 */
+  x[0] = 2;   /* 初期値 */
+
+  for(k = 0; k < 10; k++){
+    printf("%2d %.15f %.2e\n", k, x[k], x[k]-a);
+    x[k+1] = x[k] - f(x[k]) / f1(x[k]);
+  }
+
+  printf("%2d %.15f %.2e\n", k, x[k], x[k]-a);
+
+  return 0;
+}
+</script>
+		</div>
+		<aside>
+			<code>%.2e</code>は、有効数字小数点以下2桁の<b>指数表記</b>とすること意味します。<br>
+			具体的には、端末上で<code>1.23e-10</code>と表示される数値は、\( 1.23 \times 10^{-10} \) を表します。
+		</aside>
+		<p>
+			プログラムが書けたら、実行してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w4-p3-newton-diff.c
+./a.out
+#  0 2.000000000000000 5.86e-01
+#  1 1.500000000000000 8.58e-02
+#  2 1.416666666666667 2.45e-03
+#  3 1.414215686274510 2.12e-06
+#  4 1.414213562374690 1.59e-12
+#  5 1.414213562373095 0.00e+00
+#  6 1.414213562373095 -2.22e-16
+#  7 1.414213562373095 0.00e+00
+#  8 1.414213562373095 -2.22e-16
+#  9 1.414213562373095 0.00e+00
+# 10 1.414213562373095 -2.22e-16
+</script>
+		</div>
+		<p>
+			\( 2\le k\le4 \) では誤差（3列目）の指数部の絶対値は 3, 6, 12 であり（これは \( x_k \) と \( \sqrt 2 \) が一致する桁数と、ほぼ等しい）、\( k \) が増える毎に2倍になっていることがわかります。
+			この性質を<b>2次収束</b>と言います。<br>
+			一方で、\( 5\le k \) での誤差は正しく計算されていないこともわかります（\( k=5, 7, 9 \) のとき、誤差が \( 0 \) になっている）。上の表から、第3列は \( x_k - \sqrt 2 \) ではなく、\( x_k - x_5 \) が計算されていると言えます。<br>
+		</p>
+		<aside>
+			また、減算を行うことで「桁落ち（cancellation）」により有効数字が失われていることには注意が必要です。<br>
+			例えば、\( 1.414 - 1.400 \) は有効数字 4 桁の数値の減算であるが、共通部分の \( 1.4 \) が <ruby>cancel<rt>打ち消</ruby> されて、結果の \( 0.014 \) の有効数字は2桁しか残っていません。
+		</aside>
+		<p>
+			実行結果はグラフ化するために<code>w4-p3-result.txt</code>に保存しておきましょう。なお、このファイルは結果をコピペして作成するのでも良いですが、以下の方法をとると実行時に自動的に生成することもできます。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w4-p3-newton-diff.c
+./a.out > w4-p3-result.txt
+</script>
+		</div>
+		<aside>
+			記号<code>></code>は、標準出力（今の場合は、端末・ターミナルへの画面出力）に出力する代わりに、後ろに続くファイルに上書きすることを指示するコマンドです。
+			もし、上書きではなく追記をしていきたい場合には、<code>>></code>（2個並べる）を使うとよいです。
+		</aside>
+	</section>
+	<section>
+		<h2>収束の状況（誤差）をグラフ化する</h2>
+		<p>
+			上記で得られた実行結果<code>w4-p3-result.txt</code>の第3列（ \( x_k - a \) ）をgnuplotを使ってグラフ化する。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>gnuplot
+
+set xlabel "Number of iterations" font ",20"
+set ylabel "Error" font ",20"
+set key font ",20"
+set tics font ",20"
+set xrange [-.5:10.5]
+plot 'w4-p3-result.txt' u 3 w lp, 0
+</script>
+		</div>
+		<p>
+			出力されるグラフは、以下のようになります。<br>
+			なお、凡例の<code>'w4-p3-result.txt' u 3</code>は、plot 時のコマンドがそのまま出ているだけで、レポートや論文の読者にとっては意味をなさないことがあるので注意が必要です。
+			外部プログラムで svg を修正するか、
+			<code>plot 'w4-p3-result.txt' u 3 w lp title "Newton method"</code>のようにタイトルを指定して変更することで、任意の凡例をつけることができます。
+		</p>
+		<img src="img/w4-1.svg" class="graph">
+		<p>
+			第3列を指数表示で出力しているように、このようなデータは対数グラフの方が適していることがあります。先程のグラフを対数表示で出力し直してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell" data-line="8"
+>gnuplot
+
+set xlabel "Number of iterations" font ",20"
+set ylabel "Error" font ",20"
+set key font ",20"
+set tics font ",20"
+set xrange [-.5:10.5]
+set logscale y                # 追加： y軸を対数スケールに
+plot 'w4-p3-result.txt' u 3 w lp title "Newton method"
+</script>
+		</div>
+		<p>
+			出力されるグラフは、以下のようになります。<br>
+			先程の図とは異なり、\( k \) が大きくなるほど加速していることがわかります。
+			これはニュートン法の本質を捉えているといえます。
+		</p>
+		<aside>
+			なお、誤差 \( x_k - a \) は単調減少するとは限らないことに注意が必要です。<br>
+			初期値の設定によっては、誤差が増加した後、減少に転じることもあります（例えば、\( f(x)=x^2-2 \) で、\( x_0=0.1 \) とした場合など）。
+		</aside>
+		<img src="img/w4-2.svg" class="graph">
+	</section>
+	<section>
+		<h2>ループの打ち止め</h2>
+		<p>
+			ここまでの結果から、何回かの反復の後の計算は無意味であることがわかりました。
+			ただ何回目から無意味なのかは、対象となる関数や初期値の設定により異なるため、どのタイミングでループを打ち止めするべきかを決定しなければいけません。
+		</p>
+		<div class="code">
+<span class="filename">w4-p4-newton-stop.c</span>
+<script type="text/plain" class="language-c line-numbers" data-line="12,13,14,16"
+>#include <stdio.h>
+
+/* TODO: ここで f　と f1 を定義 */
+
+int main(){
+  /* TODO: ここで x と k を宣言 */
+
+  double a = 1.41421356237309504880; /* 真値 √2 */
+  x[0] = 2;   /* 初期値 */
+
+  for(k = 0; k < 100;){
+    printf("%2d %.15f %9.2e %9.2e\n", k, x[k], x[k]-a, f(x[k])/f1(x[k]));
+    double diff = f(x[k]) / f1(x[k]);
+    x[k+1] = x[k] - diff;
+    k++;
+    if( diff * diff < 1e-16 ) break;
+  }
+
+  printf("%2d %.15f %9.2e %9.2e\n", k, x[k], x[k]-a, f(x[k])/f1(x[k]) );
+
+  return 0;
+}
+</script>
+		</div>
+		<p>
+			ここで、<code>double diff = f(x[k]) / f1(x[k]);</code>は<b>「修正量」</b>という。この値が設定した条件式を満たしたとき（上記では、<code>diff * diff < 1e-16</code>が満たされたとき）に、ループが打ち止められます。
+			なお、ループ終了後に<code>x[k]</code>で最後の計算結果を参照できるように、<code>k++</code>を<code>break</code>の前に行う必要があります。
+		</p>
+		<aside>
+			この <code>diff</code> はニュートン法の元の式の第2項にあたりますが、これが何を意味するかというと、<b>\( x_k \) がどの程度変化するか</b>を示しています（つまり、\( x_{k+1} - x_k \) に等しい）。第2項が非常に小さくなると、ほとんど \( x_k \) は変化しなくなるため、どれだけ繰り返しても意味がない...なので、打ち止める。というロジックです。
+		</aside>
+		<aside>
+			なぜ、条件式が<code>diff * diff</code>（<code>diff</code>の二乗）を使っているかというと、<code>diff</code>の符号を無視するためでです。
+			つまり、条件式として<code>fabs(diff) < 1e-8</code>（<code>fabs</code>は絶対値を取る関数）を使っても同じ結果が得られます。なお、<code>fabs</code>を使う場合は、<code>#include &lt;math.h&gt;</code>で、数学用のライブラリをインクルードする必要があるほか、コンパイル時にはオプションを付ける必要（<code>cc -lm example.c</code>）があります。
+		</aside>
+		<p>
+			プログラムが書けたら、実行してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w4-p4-newton-stop.c
+./a.out
+#  0 2.000000000000000 +5.86e-01 +5.00e-01
+#  1 1.500000000000000 +8.58e-02 +8.33e-02
+#  2 1.416666666666667 +2.45e-03 +2.45e-03
+#  3 1.414215686274510 +2.12e-06 +2.12e-06
+#  4 1.414213562374690 +1.59e-12 +1.59e-12
+#  5 1.414213562373095 （以下略）
+</script>
+		</div>
+		<p>
+			ここまでは、<b>真値を知っている前提</b>で「誤差 \( a \)」を計算してきましたが、普通は真値はわからないものです。
+			一方で「修正量」は関数 \( f \) とその導関数 \( f' \) により計算できます。
+	    そして、「修正量」は「誤差」の推定値であるので、概ね等しいことが知られています（下図参照）。
+		</p>
+		<img src="img/newton-abst.svg" class="graph graph-small">
+		<aside>
+			2次収束の反復法では、修正量（あるいは誤差）の指数部は \( k \) が増える毎に約2倍になっていきますが、上の結果からdouble型では \( 10^{-16} \) （正確には \( 2^{-52} \)）より小さな数を正確に表すことができません。
+			すなわち、\( |修正量|<10^{-8} \) を満たした次の修正量は小さすぎて近似解の値をほとんど変えないため（そもそも、正確に計算することすらできない）、計算の必要はないといえます。
+		</aside>
+		<aside>
+			なお、上記プログラムでは反復回数上限（<code>k<100</code>）を設定していますが、 これが発動するような状況では、ニュートン法ではなく他の手法の方が適している可能性があります（次週を参照）。
+		</aside>
+		<section class="kadai">
+			<h3>演習</h3>
+			<dl>
+				<dt>演習X-1</dt>
+				<dd>
+					自身が書いた上記のプログラム（<code>w4-p4-newton-stop.c</code>）について、プログラムとその実行結果を示し、実行結果の第3列（誤差）と第4列（修正量）をy軸を対数軸とする一つのグラフに描画した図として示せ。
+				</dd>
+			</dl>
+		</section>
+	</section>
+	<section>
+		<h2>フローチャート</h2>
+		<p>
+			プログラムの挙動を視覚的にわかりやすく表現するための方法として、<b>フローチャート</b>があります。以下は、その例を示しています（今回のプログラムとは別です）。
+			各ブロックはプログラム上での操作を示しており、ブロックの形はその役割を示しています。例えば、長方形は計算や代入、ひし形は条件分岐、平行四辺形は標準出力、といったものがあります。
+		</p>
+		<aside>
+			プログラムにおける代入文<code>k = k + 1</code>は、数学的には奇妙であるため（\( k \) と \( k+1 \) は同値ではない）、
+			フローチャートや解説文等においては \( k \leftarrow k+1 \) と書くことがあります。
+		</aside>
+		<img src="img/flowchart.svg" class="graph graph-small">
+		<section class="kadai">
+			<h3>演習</h3>
+			<dl>
+				<dt>演習X-2</dt>
+				<dd>
+					自身が書いた上記のプログラム（<code>w4-p4-newton-stop.c</code>）のフローチャートを描きなさい。
+				</dd>
+			</dl>
+		</section>
+	</section>
+	<section>
+		<h2>おまけ</h2>
+		<p>
+			上記のプログラムの設計では、\( f \) と \( f' \) をそれぞれ関数として定義しています。これは、別の関数に変更したい場合に、書き換えるべき場所が明確であるため「汎用的」であるといえます。
+		</p>
+		<p>
+			ニュートン法の元の式には除算が含まれていますが、対照とする関数によっては除算を除去することができます。除算は遅い上、0による除算の心配をする必要もあるため、可能なら避けたい演算です。そのため、\( f'(x) \) が逆数となり「修正量」の計算に除算が現れないような性質（下記参照）を有効に利用でき、かつ汎用性を持った設計ができれば理想的といえます。
+		</p>
+		<table class="newton-omake">
+			<tr>
+				<tr>
+					<td></td>
+					<td>\(f(x)\)</td>
+					<td>\(f'(x)\)</td>
+					<td>\(f(x)/f'(x)\)</td>
+				</tr>
+				<tr>
+					<td>A.</td>
+					<td>\(\tan x-\alpha\)</td>
+					<td>\(\left(\cos x\right)^{-2}\)</td>
+					<td>\( \cos x (\sin x - \alpha \cos x) \)</td>
+				</tr> 
+				<tr>
+					<td>B.</td>
+					<td>\(x^{-1}-\alpha\)</td>
+					<td>\(-x^{-2}\)</td>
+					<td>\( -x (1-\alpha x) \)</td>
+				<tr>
+					<td>C.</td>
+					<td>\(x^{-2}-\alpha\)</td>
+					<td>\(-2x^{-3}\)</td>
+					<td>\( -0.5 x (1 - \alpha x^2) \)</td>
+				</tr>
+			</tr>
+		</table>
 	</section>
 </div>
 <div class="loading" v-else>認証中...</div>
@@ -53,6 +512,8 @@
 <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" />
 <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
 <script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<!-- MathJax -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <!-- Line Number -->
 <script src="https://unpkg.com/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
 <link href="https://unpkg.com/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />

@@ -273,6 +273,30 @@ code.language-shell .token.inserted, pre.language-shell .token.inserted {
 	color: green;
 }
 
+.MathJax * {
+	font-family: MJXZERO, MJXTEX, serif;
+}
+
+table.newton-omake {
+	text-align: center;
+	tr {
+		margin: 5px 0 0;
+		td {
+			padding: 5px 20px;
+		}
+	}
+}
+
+img.graph {
+	display: block;
+	width: 95%;
+	max-width: 600px;
+	margin: 20px auto;
+	&.graph-small {
+		max-width: 400px;
+	}
+}
+
 table.schedule {
 	margin: 10px 10px 25px;
 	border-collapse: collapse;

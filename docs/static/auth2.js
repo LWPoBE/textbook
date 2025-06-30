@@ -16,7 +16,12 @@ var app = new Vue({
           console.log("[authUser]", response, response.status);
           if(response.status == 200) {
             this.isAuthorized = true;
-            setTimeout(() => { Prism.highlightAll(); }, 500);
+            setTimeout(() => {
+              Prism.highlightAll();
+              if(typeof window.MathJax !== "undefined") {
+                MathJax.typesetPromise();
+              }
+            }, 500);
           } else {
             location.replace("/textbook/auth/");
           }
