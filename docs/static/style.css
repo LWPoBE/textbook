@@ -287,6 +287,11 @@ table.newton-omake {
 	}
 }
 
+section ul li {
+	padding: 6px 0;
+}
+
+
 img.graph {
 	display: block;
 	width: 95%;
