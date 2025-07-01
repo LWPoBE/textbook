@@ -3,7 +3,6 @@
 <head>
 	<meta charset="utf-8">
 	<title>工学基礎実験実習 第12週目 講義資料</title>
-	<link rel="stylesheet" href="../static/style.css?v=1.2">
 </head>
 <body>
 <div id="app">
@@ -68,7 +67,57 @@ cd 20250708
 		</div>
 	</section>
 	<section>
-		<h2>作成中</h2>
+		<h2>ニュートン法の弱点</h2>
+		<p>
+			ニュートン法は重根に対して2次収束しないことが知られています。
+		</p>
+		<p>
+			前回課題[B]の関数 \( f(x)=x^3-3x-2=(x+1)^2(x-2) \) を題材に確認してみましょう。この関数における重根の \( x = -1\) に収束するような初期値を設定してプログラムを実行してみます。
+		</p>
+		<div class="code">
+<span class="filename">w5-p1-newton-multiple-root.c</span>
+<script type="text/plain" class="language-c line-numbers">#include <stdio.h>
+
+double f(double x){
+  return ???; /* 上記の f(x) を実装する */ 
+}
+
+double f1(double x){
+  return ???; /* 上記の f(x) の一次導関数を実装する */ 
+}
+
+int main() {
+  int k;
+  double x[100];
+  double a = -1; // 真値
+
+  x[0] = ???; /* 重根（-1）に収束するように適切な初期値を設定する */
+
+  /* 前回資料を参照しつつ実装する */
+}
+</script>
+		</div>
+		<p>
+			プログラムを実行してみます。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc 12-1.c -o 12-1.out
+./12-1.out
+ 0 -2.500000000000000 -1.50e+00
+ 1 -1.857142857142857 -8.57e-01
+ 2 -1.471428571428571 -4.71e-01
+ 3 -1.250701899256812 -2.51e-01
+ 4 -1.130005160115049 -1.30e-01
+ 5 -1.066325060551393 -6.63e-02
+ 6 -1.033517348090597 -3.35e-02
+ 7 -1.016850748714514 -1.69e-02
+ 8 -1.008448838970131 -8.45e-03
+ 9 -1.004230343034835 -4.23e-03
+10 -1.002116659686536 -2.12e-03
+</script>
+		</div>
 	</section>
 </div>
 <div class="loading" v-else>認証中...</div>
@@ -96,4 +145,6 @@ cd 20250708
 <link href="https://unpkg.com/prismjs@1.29.0/plugins/unescaped-markup/prism-unescaped-markup.min.css" rel="stylesheet" />
 <!-- MathJax -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- my css -->
+<link rel="stylesheet" href="../static/style.css?v=1.2">
 </html>
