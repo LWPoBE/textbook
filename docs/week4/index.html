@@ -313,10 +313,9 @@ int main(){
 			上記で得られた実行結果<code>w4-p3-result.txt</code>の第3列（ \( x_k - a \) ）をgnuplotを使ってグラフ化する。
 		</p>
 		<div class="code">
-<span class="filename">端末（ターミナル）</span>
+<span class="filename">gnuplot</span>
 <script type="text/plain" class="language-shell"
->gnuplot
-
+>
 set xlabel "Number of iterations" font ",15"
 set ylabel "Error" font ",15"
 set key font ",15"
@@ -336,10 +335,9 @@ plot 'w4-p3-result.txt' u 3 w lp, 0
 			第3列を指数表示で出力しているように、このようなデータは対数グラフの方が適していることがあります。先程のグラフを対数表示で出力し直してみましょう。
 		</p>
 		<div class="code">
-<span class="filename">端末（ターミナル）</span>
+<span class="filename">gnuplot</span>
 <script type="text/plain" class="language-shell" data-line="8"
->gnuplot
-
+>
 set xlabel "Number of iterations" font ",15"
 set ylabel "Error" font ",15"
 set key font ",15"

@@ -275,6 +275,9 @@ code.language-shell .token.inserted, pre.language-shell .token.inserted {
 
 .MathJax * {
 	font-family: MJXZERO, MJXTEX, serif;
+	& > .TEX-I {
+    font-family: MJXZERO, MJXTEX-I, serif;
+	}
 }
 
 table.newton-omake {
