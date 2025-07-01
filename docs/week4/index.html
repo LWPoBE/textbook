@@ -221,7 +221,11 @@ int main(){
 			\[6369051672525772 / 2^{52} \approx 1.41421356237309492343... \]
 			（表す数が 1 以上 2 未満の場合は、分母が \( 2^{52} \) であり、これ以外の範囲では異なる 2 の累乗が用いられます）。
 			演算の結果を正確に表現できない場合は、表現可能な最も近い値で近似された値が得られます。これを<b>「丸め（rounding）」</b>と言います。
-			double型の場合には有効数字は小数点以下15桁程度であり、16桁目以降はほぼ無意味といえます。つまり、今回の計算において \( k=6 \) 以降の計算は意味がありません。<br></p>
+			double型の場合には有効数字は小数点以下15桁程度であり、16桁目以降はほぼ無意味といえます。つまり、今回の計算において \( k=6 \) 以降の計算は意味がありません。
+		</p>
+		<aside>
+			上記プログラムのdoubleで宣言されている変数をすべてfloatで定義してみるとどうなるでしょうか。実際に実行してみるとわかりますが、結果としては「doubleの半分の桁数」しか正確な近似解を得られません。これは、floatは「単精度浮動小数点数」、doubleは「倍精度浮動小数点数」であることに起因します。つまり、求める精度によって適した型を選ぶ必要があるということがこの結果からわかります。
+		</aside>
 	</section>
 	<section>
 		<h2>収束の状況（誤差）を計算する</h2>
@@ -314,10 +318,10 @@ int main(){
 <script type="text/plain" class="language-shell"
 >gnuplot
 
-set xlabel "Number of iterations" font ",20"
-set ylabel "Error" font ",20"
-set key font ",20"
-set tics font ",20"
+set xlabel "Number of iterations" font ",15"
+set ylabel "Error" font ",15"
+set key font ",15"
+set tics font ",15"
 set xrange [-.5:10.5]
 plot 'w4-p3-result.txt' u 3 w lp, 0
 </script>
@@ -337,10 +341,10 @@ plot 'w4-p3-result.txt' u 3 w lp, 0
 <script type="text/plain" class="language-shell" data-line="8"
 >gnuplot
 
-set xlabel "Number of iterations" font ",20"
-set ylabel "Error" font ",20"
-set key font ",20"
-set tics font ",20"
+set xlabel "Number of iterations" font ",15"
+set ylabel "Error" font ",15"
+set key font ",15"
+set tics font ",15"
 set xrange [-.5:10.5]
 set logscale y                # 追加： y軸を対数スケールに
 plot 'w4-p3-result.txt' u 3 w lp title "Newton method"
@@ -467,7 +471,7 @@ int main(){
 			上記のプログラムの設計では、\( f \) と \( f' \) をそれぞれ関数として定義しています。これは、別の関数に変更したい場合に、書き換えるべき場所が明確であるため「汎用的」であるといえます。
 		</p>
 		<p>
-			ニュートン法の元の式には除算が含まれていますが、対照とする関数によっては除算を除去することができます。除算は遅い上、0による除算の心配をする必要もあるため、可能なら避けたい演算です。そのため、\( f'(x) \) が逆数となり「修正量」の計算に除算が現れないような性質（下記参照）を有効に利用でき、かつ汎用性を持った設計ができれば理想的といえます。
+			ニュートン法の元の式には除算が含まれていますが、対象とする関数によっては除算を除去することができます。除算は遅い上、0による除算の心配をする必要もあるため、可能なら避けたい演算です。そのため、\( f'(x) \) が逆数となり「修正量」の計算に除算が現れないような性質（下記参照）を有効に利用でき、かつ汎用性を持った設計ができれば理想的といえます。
 		</p>
 		<table class="newton-omake">
 			<tr>
@@ -512,8 +516,6 @@ int main(){
 <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" />
 <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
 <script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-<!-- MathJax -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <!-- Line Number -->
 <script src="https://unpkg.com/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
 <link href="https://unpkg.com/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
@@ -523,4 +525,6 @@ int main(){
 <!-- Unescaped Markup -->
 <script src="https://unpkg.com/prismjs@1.29.0/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
 <link href="https://unpkg.com/prismjs@1.29.0/plugins/unescaped-markup/prism-unescaped-markup.min.css" rel="stylesheet" />
+<!-- MathJax -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </html>
