@@ -139,6 +139,11 @@ h4:before {
 }
 p {
 	padding: 15px 10px;
+	&.definition {
+		padding: 15px 20px;
+		background: #f6f6f6;
+		border-radius: 5px;
+	}
 }
 ul, ol {
 	padding: 10px;

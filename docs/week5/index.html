@@ -72,7 +72,7 @@ cd 20250708
 			ニュートン法は重根に対して2次収束しないことが知られています。
 		</p>
 		<p>
-			前回課題[B]の関数 \( f(x)=x^3-3x-2=(x+1)^2(x-2) \) を題材に確認してみましょう。この関数における重根の \( x = -1\) に収束するような初期値を設定してプログラムを実行してみます。
+			前回課題[B]の関数 \( f(x)=x^3-3x-2=(x+1)^2(x-2) \) を題材に確認してみましょう。この関数における重根の \( x = -1\) に収束するような初期値を設定してプログラムを実装してみます。
 		</p>
 		<div class="code">
 <span class="filename">w5-p1-newton-multiple-root.c</span>
@@ -103,8 +103,8 @@ int main() {
 		<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->cc w5-p1-newton-multiple-root.c
-./a.out
+>cc w5-p1-newton-multiple-root.c -o w5-p1.out
+./w5-p1.out
 #  0 -2.500000000000000 -1.50e+00
 #  1 -1.857142857142857 -8.57e-01
 #  2 -1.471428571428571 -4.71e-01
@@ -119,7 +119,8 @@ int main() {
 </script>
 		</div>
 		<p>
-			誤差は全て負になっていることから、次のようにして3列目の絶対値 <code>(abs($3))</code>を対数プロットしてみましょう。加えて、前回の \( f(x) = x^2 - 2 \) にニュートン法を敵将した場合（2次収束の場合）もグラフ描画し、比較してみましょう。
+			この結果は、<code>w5-p1.txt</code>として保存しておきます。<br>
+			誤差は全て負になっていることから、次のようにして3列目の絶対値 <code>(abs($3))</code>を対数プロットしてみましょう。加えて、前回の \( f(x) = x^2 - 2 \) にニュートン法を適用した場合（=2次収束の場合、<code>root2.txt</code>）もグラフ描画し、比較してみましょう。
 		</p>
 		<div class="code">
 <span class="filename">gnuplot</span>
@@ -130,9 +131,297 @@ set ylabel "Error" font ",20"
 set key font ",15"
 set tics font ",15"
 set xrange [-.5:10.5]
-plot '12-1.txt' u (abs($3)) w lp title "Double root", 'root2.txt' u 3 w lp title "Single root"
+plot 'w5-p1.txt' u (abs($3)) w lp title "Double root", 'root2.txt' u 3 w lp title "Single root"
 </script>
 		</div>
+		<p>
+			出力結果は以下のようになります。重根（Double root）に対する結果は、ニュートン法らしからぬ極めて遅い収束速度になっていることがわかります。
+			誤差が片対数グラフで直線になっており、これは1次収束であるといえます。
+			反復回数を増やしたとしても、15桁よりはるかに悪い精度しか得られないはずです。
+		</p>
+		<aside>
+			ちなみに、このグラフは異なる関数に対する結果を比較しているので、あまり良い比較とは言えません。同じ関数で比較するほうがベターです。
+		</aside>
+		<img src="img/w5-1.svg" class="graph" class="graph">
+	</section>
+	<section>
+		<h2>重根回避法</h2>
+		<p>
+			重根における収束速度の低下に関する回避法の1つを紹介します。
+		</p>
+		<p class="definition">
+			ある根 \( a \) を考えるとき、その値を代入した\( f(a) \) は \( f(a)=0 \) 満たす。<br>
+			このとき重根であれば、更に \( f'(a)=0 \) となる。<br>
+			この場合、\( f(x)=0 \) の代わりに、\( f'(x)=0 \) を解けば、ある根 \( a \) の近似解を得られる。
+		</p>
+		<p>
+			先程のプログラムを少しだけ改変してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">w5-p2-quadratic-convergence.c</span>
+<script type="text/plain" class="language-c line-numbers">#include <stdio.h>
+
+double f(double x){
+  return ???; /* 関数名とは矛盾するが、ここには f'(x) を実装する */ 
+}
+
+double f1(double x){
+  return ???; /* 関数名とは矛盾するが、ここには f''(x) を実装する */ 
+}
+
+int main() {
+  /* w5-p1-newton-multiple-root.c と同じ */
+}
+</script>
+		</div>
+		<p>
+			これもまた重根になる場合は、\(f'(x)\) を新たに \(f(x)\) とおき、同じ処理の適用を繰り返すことができます。<br>
+			プログラムがかけたら実行してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w5-p2-quadratic-convergence.c -o w5-p2.out
+./w5-p2.out
+#  0 -2.500000000000000 -1.50e+00
+#  1 -?.??????????????? -4.50e-01
+#  2 -?.? S ??????????? -6.98e-02
+#  3 -?.??? A ????????? -2.28e-03
+#  4 -?.????? M ??????? -2.59e-06
+#  5 -?.??????? P ????? -3.36e-12
+#  6 -?.????????? L ??? ?
+#  7 -?.??????????? E ? ?
+#  8 -?.??????????????? ?
+#  9 -?.??????????????? ?
+# 10 -1.000000000000000 0.00e+00
+</script>
+		</div>
+		<p>
+			この結果について、誤差の指数部を見てみると2次収束していることがわかります。	
+			結果を<code>w5-p2.txt</code>に保存し、
+			異なる手法を用い同じ根に対して同じ初期値から始めた結果（先程の<code>w5-p1.txt</code>）とグラフで比較してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">gnuplot</span>
+<script type="text/plain" class="language-shell"
+>set logscale y
+#中略
+plot 'w5-p1.txt' u (abs($3)) w lp title "Linear convergence", 'w5-p2.txt' u (abs($3)) w lp title "Quadratic convergence"
+</script>
+		</div>
+		<img src="img/w5-2.svg" class="graph">
+		<p>
+			1次収束の<code>w5-p1.txt</code>と比較して、2次収束になっていることがわかります。
+		</p>
+	</section>
+	<section>
+		<h2>二分法</h2>
+		<p>
+			ニュートン法と対比される方法の1つに「二分法」があります。考え方は次のとおりです。
+		</p>
+		<p class="definition">
+			解 \( a \) は区間 \( [l:r] \) 内にあるとする（\( l\le a \le r \)）。<br>
+			区間 \( [l:r] \) で、\( f(x) \) は単調増加とする。<br>
+			中点 \( m=(l+r)/2 \) での \( f(m) \) の符号によって、
+			解が \( [l:m] \) にあるか \( [m:r] \) にあるかを判定できる。<br>
+			これによって、解が存在すると推定される区間の幅を半分に削減できるため、
+			区間が十分に小さくなるまでこの作業を繰り返せすことで、解 \( a \) の近似解を得る。
+		</p>
+		<img src='img/bisect-abst.svg' class="graph">
+		<p>
+			二分法のプログラムを実装してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">w5-p3-bisection.c</span>
+<script type="text/plain" class="language-c line-numbers">#include <stdio.h>
+#include <math.h>
+
+/* ここで f を定義 */
+
+int main(){
+  int k;
+  double m, fm;
+
+  double l=1, r=2; /* 最初の区間をここで与える */
+
+  for(k=0;k<53;k++){
+    m=???;         /* 解説を参照 */
+    printf("%2d %.15f\n",k,m);      
+    fm=f(m);
+    if( ??? ){     /* 解説を参照 */
+     r = m;        /* 区間を [l,m] に変更 */
+    }else{
+     l = m;        /* 区間を [m,r] に変更 */
+    }
+  }
+  printf("%2d %.15f\n",k,m);
+
+  return 0;
+}
+</script>
+		</div>
+		<p>
+			プログラムが書けたら実行してみましょう。
+			なお、結果は<code>w5-p3.txt</code>に保存しておくこと。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w5-p3.c -o w5-p3.out
+./w5-p3.out
+#  0 1.500000000000000
+# ####################
+# ##### OMITTED ######
+# ####################
+# 53 1.414213562373095
+</script>
+		</div>
+		<p>
+			得られた結果を、gnuplotでプロットしてみましょう。
+		</p>
+		<div class="code">
+<span class="filename">gnuplot</span>
+<script type="text/plain" class="language-shell"
+>set logscale y
+# 中略
+set xrange [-.5:53.5]
+plot 'w5-p3.txt' u (abs($2-sqrt(2))) w lp title "Bisection method"
+</script>
+		</div>
+		<img src='img/w5-3.svg' class="graph">
+		<p>
+			二分法の特徴は以下のとおりです。
+		</p>
+		<ul>
+			<li>誤差は対数グラフでほぼ直線を描く（1次収束）。
+			<li>\( f' \) を必要としない。
+			<li>除算を必要としない。
+			<li>\(\sqrt{\alpha}\) の計算の場合は、乗算すら要しない実装も可能であるため、ニュートン法の数倍の反復回数を要しても遅いとは限らない:
+				<ul>
+					<li>\(l=m-h,~ r=m+h\) となる \( h \) が存在する。
+					<li>\( f(m) = m^2-\alpha = (f(l)+f(r))/2-h^2 \) であるため \( m^2 \) の計算は不要である。
+					<li>また \( h^2 \) は区間が 1/2 に縮小する毎に 1/4 に減少する。
+					<li>以上の性質を用いた2分法に現れる乗除算は 2 の累乗による乗除算のみであり、2 進数では桁をずらすだけなので（10進数における 10 や 100 による乗除算に似ている）、一般の乗算よりはるかに簡単な回路を使って計算可能であり、これが利用できる場合は乗算とはみなさない。
+				</ul>
+			<li>その他（考察または調査しなさい）。
+		</ul>
+	</section>
+	<section>
+		<h2>セカント法</h2>
+		<p>
+			ニュートン法と似た手法の一つとして「セカント法」があります。
+			考え方は次のとおりです。
+		</p>
+		<p class="definition">
+			\( (x_k,f(x_k)) \) における接線の代わりに、<br>
+			\( (x_k,f(x_k)) \) と \( (x_{k-1},f(x_{k-1})) \) を通る直線を用い、<br>
+			この直線と \(x\) 軸の交点を \(x_{k+1}\) とする。<br>
+
+			次の式は、両辺とも上記の直線の傾きを表している。
+			\begin{equation}
+			 \frac{ f(x_{k-1}) - f(x_{k})}{ x_{k-1} - x_{k} } = \frac{ 0 - f(x_{k}) }{ x_{k+1}  - x_{k} }
+			\end{equation}
+			この式から \(x_{k+1}\) を得るのは容易である。<br>
+
+			\begin{eqnarray}
+			&&x_{k+1} = x_{k} - f(x_{k})\cdot\frac{x_{k} - x_{k-1}}{f(x_{k}) - f(x_{k-1})}\\
+			&&x_{k+1} = x_{k} - \textrm{diff}
+			\end{eqnarray}
+
+			これを繰り返すことにより、近似解を得る。
+		</p>
+		<img src="img/secant-abst.svg" class="graph">
+		<p>
+			セカント法のプログラムを実装してみましょう。
+		</p>
+		<div class="code">
+<span class="filename">12-4.c</span>
+<script type="text/plain" class="language-c line-numbers">#include <stdio.h>
+#include <math.h>
+
+/* ここで f を定義 */
+
+int main(){
+  int k;
+  double fx[21];
+  double x[21];
+  double diff;
+
+  x[0] = 2;
+  x[1] = 1; /* 初期値は 2 つ */
+
+  fx[0] = f(x[0]);
+  fx[1] = f(x[1]);
+
+  printf("%2d %.15f\n", 0, x[0]);
+
+  for(k=1; k<20;){  /* x[2] の計算から始まることに注意 */
+    printf("%2d %.15f\n", k, x[k]);
+    diff    = ???;   /* 解説を参照し実装する */
+    x[k+1]  = x[k] - diff;
+    fx[k+1] = f(x[k+1]);
+    k++;
+    if( fabs(diff) < 1e-10 ) break;
+  }
+  printf("%2d %.15f\n", k, x[k]);
+
+  return 0;
+}
+</script>
+		</div>
+		<p>
+			プログラムが書けたら実行してみましょう。 なお、結果は<code>w5-p4.txt</code>に保存しておくこと。
+		</p>
+		<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>cc w5-p4.c -o w5-p4.out
+./w5-p4.out
+ 0 2.000000000000000
+ 1 1.000000000000000
+####################
+##### OMITTED ######
+####################
+</script>
+		</div>
+		<p>
+			得られた結果を、gnuplotでプロットしてみましょう。
+		</p>
+		<div class="code">
+<span class="filename">gnuplot</span>
+<script type="text/plain" class="language-shell"
+>set logscale y
+# 中略
+set xrange [-.5:12.5]
+plot '12-4.txt' u (abs($2-sqrt(2))) w lp title "Secant method"
+</script>
+		</div>
+		<img src='img/w5-4.svg' class="graph">
+		<p>
+			セカント法の特徴は以下のとおりです。
+		</p>
+		<ul>
+			<li>\( f' \) を必要としない。
+			<li>誤差の指数部 \( e_k \) は k が増える毎に約 1.6 倍になる。1.6 次収束と言うこともある。
+			（誤差を <code>%.2e</code> 形式で表示し、\( e_{k+1}\approx e_k+e_{k-1}\) となることを確かめなさい。
+			従って、\( e_k \) はフィボナッチ数列と同様に黄金比（1.6&hellip;）を公比とする等比数列で近似できる）
+			<li>必ずしも、ニュートン法より遅いわけではない。
+			<ul>
+			<li>ニュートン法の約 1.44 （\(\approx \log_2 ((1+\sqrt 5)/2) \)）倍の反復回数を要すると見積もられるが、
+			反復法の計算時間は、反復回数だけでなく、1反復毎の計算の量にも依存する。
+			<li>\(f\) の計算が四則演算よりもはるかに複雑な場合を想定すると、main に記述された演算の回数は無視できるため、
+			1反復あたりの計算時間は以下のように考えられる。
+				<ul>
+					<li>ニュートン法は、正しい桁数を 2 倍にするために \( f \) と \( f' \) の計算を各1回要する。
+					<li>セカント法は、正しい桁数を 1.6 倍にするために \( f \) の計算を1回要する。
+				</ul>
+			</ul>
+			<li>その他（考察または調査しましょう）。
+		</ul>
+		<aside>
+			方程式の解法は、その他にも存在します。
+			対象の方程式によって適切に選ぶ余地があるので、各自調べてみましょう。
+		</aside>
 	</section>
 </div>
 <div class="loading" v-else>認証中...</div>
