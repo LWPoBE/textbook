@@ -37,7 +37,7 @@
 	<section>
 		<h2>最終試問に向けた課題</h2>
 		<p>
-			第11・12週でプログラムを書いたニュートン法に関する実習について、LaTeXを用いてレポートにまとめる。
+			第11・12週でプログラムを書いたニュートン法に関する実習について、\( \LaTeX \) を用いてレポートにまとめる。
 		</p>
 		<h3>課題</h3>
 		<ul>
@@ -88,6 +88,45 @@
 			<li>5. まとめ</li>
 			<li>参考文献</li>
 		</ul>
+		<h3>\( \LaTeX \) に関するTips</h3>
+		<dl>
+			<dt>gnuplotで作成したSVG画像が挿入できない問題の解決方法</dt>
+			<dd>
+				<p>
+					プログラミング演習室の環境に入った \( \LaTeX \) では、SVGをうまくコンパイルできないようです。なので、gnuplotで保存する際にはPDFフォーマットで保存しましょう。なお、PDFや画像を挿入する場合にも、“bounding box が不明”といったエラーが出ることがあります。その場合は下記のように対応します。
+				</p>
+				<div class="code">
+<span class="filename">report.tex</span>
+<script type="text/plain" class="language-latex line-numbers"
+>... 前略 ...
+\includegraphics[bb=0 0 600 400, width=\columnwidth]{img/graph.pdf}
+... 後略 ...
+</script>
+				</div>
+				<p>
+					ポイントは<code>bb=0 0 600 400</code>の部分です。PDFや画像の「バウンディングボックス」（どこからどこまでが画像の領域かを示すデータ ≒ PDF・画像の大きさ）を指定することで、上記のエラーは解消することが出来ます。
+				</p>
+			</dd>
+			<dt>UbuntuでPDFの大きさを調べる方法</dt>
+			<dd>
+				<p>
+					Ubuntuでは、標準のファイルビューアではPDFのサイズが正確に取得できません。
+					そこで、端末（ターミナル）で <code>pdfinfo</code> コマンドを使うことによって情報を取得します。
+				</p>
+				<div class="code">
+<span class="filename">端末（ターミナル）</span>
+<script type="text/plain" class="language-shell"
+>pdfinfo graph.pdf
+# ...　中略 ...
+# Page size: 600 x 400 pts
+# ... 後略 ...
+</script>
+				</div>
+				<p>
+					色々と情報が出てきますが、そこの<code>Page size: 600 x 400 pts</code>のところを見ると、<code>bb=0 0 </code>に続く情報を得られます。
+				</p>
+			</dd>
+		</dl>
 	</section>
 	<section>
 		<h2>最終試問について</h2>

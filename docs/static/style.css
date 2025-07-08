@@ -149,6 +149,17 @@ ul, ol {
 	padding: 10px;
 	margin: 0 0 0 30px;
 }
+dl {
+	padding: 5px 10px;
+	dt {
+		font-size: 1.1rem;
+		font-weight: bold;
+		padding: 15px 0 5px;
+	}
+	dd {
+		padding: 0 0 0 15px;
+	}
+}
 section > code {
 	display: block;
   margin: 10px;
