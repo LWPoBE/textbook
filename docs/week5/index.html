@@ -230,6 +230,7 @@ plot 'w5-p1.txt' u (abs($3)) w lp title "Linear convergence", 'w5-p2.txt' u (abs
 		<img src='img/bisect-abst.svg' class="graph">
 		<p>
 			二分法のプログラムを実装してみましょう。
+			関数 \( f(x)=x^2-2 \) を題材として確認していきます。
 		</p>
 		<div class="code">
 <span class="filename">w5-p3-bisection.c</span>
@@ -333,9 +334,10 @@ plot 'w5-p3.txt' u (abs($2-sqrt(2))) w lp title "Bisection method"
 		<img src="img/secant-abst.svg" class="graph">
 		<p>
 			セカント法のプログラムを実装してみましょう。
+			関数 \( f(x)=x^2-2 \) を題材として確認していきます。
 		</p>
 		<div class="code">
-<span class="filename">12-4.c</span>
+<span class="filename">w5-p4-secant.c</span>
 <script type="text/plain" class="language-c line-numbers">#include <stdio.h>
 #include <math.h>
 
@@ -375,7 +377,7 @@ int main(){
 		<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->cc w5-p4.c -o w5-p4.out
+>cc w5-p4-secant.c -o w5-p4.out
 ./w5-p4.out
  0 2.000000000000000
  1 1.000000000000000
@@ -393,7 +395,7 @@ int main(){
 >set logscale y
 # 中略
 set xrange [-.5:12.5]
-plot '12-4.txt' u (abs($2-sqrt(2))) w lp title "Secant method"
+plot 'w5-p4.txt' u (abs($2-sqrt(2))) w lp title "Secant method"
 </script>
 		</div>
 		<img src='img/w5-4.svg' class="graph">
