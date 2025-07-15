@@ -141,6 +141,37 @@
 					色々と情報が出てきますが、そこの<code>Page size: 600 x 400 pts</code>のところを見ると、<code>bb=0 0 </code>に続く情報を得られます。
 				</p>
 			</dd>
+			<dt>図の挿入方法・参照方法</dt>
+			<dd>
+				<p>
+					レポートを書く際には、多くの場合は複数の図（表）を載せることになります。
+					その場合は、どの図について言及しているのかを“参照”（図1.など）しないといけません。\( \LaTeX \) では、図の参照番号は自動で割り当てることができます。
+					図（表）を挿入する場合は、必ず<code>figure</code>環境（<code>table</code>環境）を使いましょう。
+				</p>
+				<div class="code">
+<span class="filename">LaTeX</span>
+<script type="text/plain" class="language-latex"
+>\begin{figure}[t]
+  \begin{center}
+    \includegraphics[bb=0 0 400 300, width=10cm]{img/newton_overview.pdf}
+    \caption{ニュートン法の概要}
+    \caption{newton_overview}
+  \end{center}
+\end{figure}
+
+ニュートン法の概要について、図\ref{newton_overview}に示す。
+</script>
+				</div>
+				<p>
+					こうすることで、<code>\ref{...}</code>の部分に、対応する図の参照番号が自動で入力されます。
+				</p>
+				<aside>
+					一行目の<code>[t]</code>の部分は、図を表示する場所を指定するオプションです。<br>
+					<code>[t]</code>の場合は、そのページの一番上に図を表示します。<br>
+					<code>[h]</code>の場合は、<code>figure</code>環境が挿入された位置（ページに収まらない場合は次のページの一番上）に図を表示します。<br>
+					<code>[htb]</code>のように複数を指定することもできます（左が優先されます）。
+				</aside>
+			</dd>
 		</dl>
 	</section>
 	<section>
@@ -150,7 +181,7 @@
 			試問内容は人によって異なりますが、下記の点を中心として質問します。
 		</p>
 		<ul>
-			<li>自身のPCでレポート内の特定のプログラムの実行ができるかどうか</li>
+			<li>演習室PCでレポート内の特定のプログラムの実行ができるかどうか</li>
 			<li>プログラムの内容・挙動について理解できているかどうか</li>
 		</ul>
 	</section>
