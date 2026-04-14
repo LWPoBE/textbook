@@ -104,7 +104,11 @@ int main() {
 >#include <stdio.h>
 
 int main() {
-  // 後日公開
+  int fahr;
+
+  for (fahr = 300; 0 <= fahr; fahr = fahr - 20) {
+    printf("%3d %6.1f\n", fahr, (5.0 / 9.0) * (fahr - 32));
+  }
 }
 </script>
 					</div>
@@ -240,7 +244,13 @@ int main() {
 >#include <stdio.h>
 
 int main() {
-  // 後日公開
+  int c;
+
+  while((c = getchar()) != EOF) {
+    putchar(c);
+    printf("\t(c = getchar()) != EOF ... %d\n", c != EOF);
+  }
+  printf("\t(c = getchar()) != EOF ... %d\n", c != EOF);
 }
 </script>
 					</div>
@@ -269,7 +279,7 @@ int main() {
 >#include <stdio.h>
 
 int main() {
-  // 後日公開
+  printf("EOF = %d\n", EOF);
 }
 </script>
 					</div>
@@ -402,7 +412,19 @@ int main() {
 >#include <stdio.h>
 
 int main() {
-  // 後日公開
+  int c, ns, nt, nnl;
+
+  ns = nt = nnl = 0;
+  while((c = getchar()) != EOF) {
+    if(c == ' '){
+      ns++;
+    } else if(c == '\t'){
+      nt++;
+    } else if(c == '\n'){
+      nnl++;
+    }
+  }
+  printf("space: %d, tab: %d, line-break: %d\n", ns, nt, nnl);
 }
 </script>
 					</div>
@@ -430,7 +452,16 @@ int main() {
 >#include <stdio.h>
 
 int main(){
-  // 後日公開
+  int c;
+  while((c = getchar()) != EOF){
+    if(c == ' '){
+      while(c == ' '){
+        c = getchar();
+      }
+      putchar(' ');
+    }
+    putchar(c);
+  }
 }
 </script>
 					</div>
@@ -458,7 +489,18 @@ int main(){
 >#include <stdio.h>
 
 int main() {
-  // 後日公開
+  int c;
+  while((c = getchar()) != EOF){
+    if(c == '\t'){
+      printf("\\t");
+    } else if(c == '\n'){
+      printf("\\n");
+    } else if(c == '\\'){
+      printf("\\\\");
+    } else{
+      putchar(c);
+    }
+  }
 }
 </script>
 					</div>
@@ -517,7 +559,7 @@ int main() {
 </div>
 <div class="loading" v-else>認証中...</div>
 <footer>
-	更新： 2026年4月14日
+	更新： 2025年5月20日
 </footer>
 </div>
 </body>
