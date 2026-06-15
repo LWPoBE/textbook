@@ -38,23 +38,24 @@
 		<h2>準備</h2>
 		<p>
 			まずは、端末（ターミナル）を開き、今日の作業をするためのフォルダを作成・移動しましょう。
-			ルート（<code>~/</code>）やデスクトップ上（~/Desktop/）に<code>kiso-jikken</code>というフォルダを作り、更にその中に今日の日付のフォルダ（<code>20240610</code>）を作成します。
+			デスクトップ上（~/Desktop/）に<code>kiso-jikken</code>というフォルダを作り、更にその中に今日の日付のフォルダ（<code>20260616</code>）を作成します。
 			そして、作成したフォルダに移動します。</p>
 		<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->mkdir -p kiso-jikken/20240610
-cd kiso-jikken/20240610
+>cd ~/Desktop/
+mkdir -p kiso-jikken/20260616
+cd kiso-jikken/20260616
 </script>
 		</div>
 		<aside>
 			作業するファイルやフォルダなどは、整理しておくのがオススメです。<br>
 			あのファイルどこへ行った？というトラブルを防ぎやすくなります。
 		</aside>
-		<p>
+		<aside>
 			Windows上のLinuxで作業している人は、ファイルがどこに作成されているのかがわからなくなるかも知れません。
 			ファイルを見たいときは、エクスプローラ（ファイルを見るソフト）のアドレスバーに<code>\\wsl$\Ubuntu\home\username</code>（<code>username</code>の部分はUbuntuのユーザ名に置き換える）と入力して<code>Enter</code>を押すことで、Linux内のファイルを見ることができるようになります。
-		</p>
+		</aside>
 	</section>
 	<section>
 		<h2>Hello, world! （1.1節 手始めに）</h2>
@@ -465,7 +466,7 @@ int main() {
 </div>
 <div class="loading" v-else>認証中...</div>
 <footer>
-	更新： 2026年4月14日
+	更新： 2026年6月16日
 </footer>
 </div>
 </body>
