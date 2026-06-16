@@ -70,16 +70,16 @@ cd kiso-jikken/20260616
 		<section>
 			<h3>基本プログラム</h3>
 			<p>
-				emacsで<code>w1-p1-hello.c</code>というファイルを作成して編集します。
+				テキストエディタで<code>w1-p1-hello.c</code>というファイルを作成して編集します。
 			</p>
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->emacs w1-p1-hello.c &
+>gnome-text-editor w1-p1-hello.c &
 </script>
 			</div>
 			<p>
-				もし、emacsがないと表示されたり、どうにも編集できない状態であれば、別のエディタを使いましょう。
+				別のテキストエディタを使ってもよいです。
 			</p>
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
@@ -93,9 +93,12 @@ cd kiso-jikken/20260616
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->gnome-text-editor w1-p1-hello.c &
+>emacs w1-p1-hello.c &
 </script>
 			</div>
+			<p>
+				emacsで保存するときは<code>Ctrl + x → Ctrl + s</code>、終了するときは<code>Ctrl + x → Ctrl + c</code>です。
+			</p>
 			<div class="code">
 <span class="filename">w1-p1-hello.c</span>
 <script type="text/plain" class="language-c line-numbers"
@@ -223,6 +226,52 @@ int main() {
 				<dd><code>printf</code>の引数に<code>\x</code>を含めるとどうなるかを試しなさい。</dd>
 			</dl>
 		</section>
+		<section>
+			<h3>補足： コメントアウト</h3>
+			<p>
+				コードの解説の欄で<code>// ★1</code>のように書いている部分は、コンパイル時に無視される「コメント」というものです。<br>
+				短いコメントは <code>//</code>（スラッシュ2個）を用います。行末まですべてがコメントとして扱われます。<br>
+				長いコメントや複数行のコメントを書きたい場合は、<code>/*</code>と<code>*/</code>で囲みます。囲まれた部分のみがコメントとして扱われますが、複数行にわたってコメントを書くことができます。
+			</p>
+			<div class="code">
+<span class="filename">w1-comment.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+ 
+int main() {
+  printf("1行コメント"); // 行末まですべてコメント部分
+  printf("複数行コメント"); /* ← ここから コメント部分 ここまで → */
+  printf("複数行コメント"); /* ← ここから
+     ここもコメント
+     ここもコメント
+     ここまで → */ printf("ここはプログラムが実行される");
+}
+</script>
+			</div>
+		</section>
+		<section>
+			<h3>補足： 行末のセミコロン</h3>
+			<p>
+				C言語のプログラムではほとんどの行の最後に<code>;</code>（セミコロン）があります。
+				これは、ある処理文の終わりを示す記号です。
+			</p>
+			<div class="code">
+<span class="filename">w1-semicolon.c</span>
+<script type="text/plain" class="language-c line-numbers"
+>#include <stdio.h>
+ 
+int main() {
+  int v;
+  func("処理1");
+  func("処理2"); v = 1; func("処理3"); // 1行で複数処理を書くことも可能
+
+  while (v < 10) {
+  	v = v + 1;
+  } // 閉じ中括弧 } の後にはセミコロンはつけない
+}
+</script>
+			</div>
+		</section>
 	</section>
 	<section>
 		<h2>変数と数値計算 （1.2節 変数と算術式）</h2>
@@ -241,12 +290,12 @@ int main() {
 		<section>
 			<h3>基本プログラム</h3>
 			<p>
-				emacsで<code>w1-p2-fahr.c</code>というファイルを作成して編集します。
+				テキストエディタで<code>w1-p2-fahr.c</code>というファイルを作成して編集します。
 			</p>
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
->emacs w1-p2-fahr.c &
+>gnome-text-editor w1-p2-fahr.c &
 </script>
 			</div>
 			<div class="code">
@@ -453,7 +502,7 @@ int main() {
 
   while (celsius <= upper) {
     fahr = celsius_to_fahr(celsius);
-    printf("%6.1f\t%3.0f\n", celsius, fahr);
+    printf("%3.0f\t%6.1f\n", celsius, fahr);
     celsius = celsius + step;
   }
 }
