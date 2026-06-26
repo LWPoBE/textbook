@@ -5,6 +5,7 @@ var app = new Vue({
   },
   mounted(){
     this.authUser();
+    // this.renderView();
   },
   methods: {
     authUser() {
@@ -15,13 +16,7 @@ var app = new Vue({
         .then(response => {
           console.log("[authUser]", response, response.status);
           if(response.status == 200) {
-            this.isAuthorized = true;
-            setTimeout(() => {
-              Prism.highlightAll();
-              if(typeof window.MathJax !== "undefined") {
-                MathJax.typesetPromise();
-              }
-            }, 500);
+            this.renderView();
           } else {
             location.replace("/textbook/auth/");
           }
@@ -29,6 +24,15 @@ var app = new Vue({
           console.log("[authUser] error", err);
           location.replace("/textbook/auth/");
         });
+    },
+    renderView() {
+      this.isAuthorized = true;
+      setTimeout(() => {
+        Prism.highlightAll();
+        if(typeof window.MathJax !== "undefined") {
+          MathJax.typesetPromise();
+        }
+      }, 5000);
     },
     getKey() {
       return localStorage.getItem("key");

@@ -106,8 +106,8 @@ int main() {
 int main() {
   int fahr;
 
-  for (fahr = 300; 0 <= fahr; fahr = fahr - 20) {
-    printf("%3d %6.1f\n", fahr, (5.0 / 9.0) * (fahr - 32));
+  for(fahr = 300; fahr >= 0; fahr = fahr - 20) {
+    printf("%3d\t%6.1f\n", fahr, (5.0 / 9.0) * (fahr - 32));
   }
 }
 </script>
@@ -245,12 +245,11 @@ int main() {
 
 int main() {
   int c;
-
   while((c = getchar()) != EOF) {
     putchar(c);
-    printf("\t(c = getchar()) != EOF ... %d\n", c != EOF);
+    printf("%d\n", c != EOF);
   }
-  printf("\t(c = getchar()) != EOF ... %d\n", c != EOF);
+  printf("%d\n", c != EOF);
 }
 </script>
 					</div>
@@ -314,6 +313,13 @@ int main() {
 }
 </script>
 			</div>
+			<p>
+				<code>nc++;</code>は、<code>nc = nc + 1;</code>と同じ意味で、変数に1を足す処理を表します。
+				逆に<code>nc--;</code>とすると、変数から1を引く処理（<code>nc = nc - 1;</code>）が実行されます。
+			</p>
+			<aside>
+				<code>long</code>型は<code>long int</code>の略で、<code>int</code>型よりも大きい数を取り扱えます。
+			</aside>
 			<div class="code">
 <span class="filename">端末（ターミナル）</span>
 <script type="text/plain" class="language-shell"
@@ -322,12 +328,14 @@ int main() {
 </script>
 			</div>
 			<p>
-				<code>nc++;</code>は、<code>nc = nc + 1;</code>と同じ意味で、変数に1を足す処理を表します。
-				逆に<code>nc--;</code>とすると、変数から1を引く処理（<code>nc = nc - 1;</code>）が実行されます。
+				結果が <code>38</code> または、<code>36</code> になる場合があります。
+				しかしながら、改行やスペースを合わせて数えると <code>35</code> か <code>34</code> にしかなりません。
+				これは「エディタの仕様」と「改行コード」に依存して変化します。
 			</p>
-			<aside>
-				<code>long</code>型は<code>long int</code>の略で、<code>int</code>型よりも大きい数を取り扱えます。
-			</aside>
+			<p>
+				テキストエディタによっては、最後に勝手に改行コードが挿入されるようです。
+				また、改行コードには複数種類あり、それによって文字数のカウントが異なる場合があります（<code>\r\n</code>または<code>\n</code>または<code>\n</code>）。
+			</p>
 			<p>上記のコードを<code>for</code>文を使って書き換えてみましょう。</p>
 			<div class="code">
 <span class="filename">w2-p6-countchar-for.c</span>
@@ -416,12 +424,12 @@ int main() {
 
   ns = nt = nnl = 0;
   while((c = getchar()) != EOF) {
-    if(c == ' '){
-      ns++;
-    } else if(c == '\t'){
-      nt++;
-    } else if(c == '\n'){
+    if(c == '\n') {
       nnl++;
+    } else if (c == ' ') {
+      ns++;
+    } else if (c == '\t') {
+      nt++;
     }
   }
   printf("space: %d, tab: %d, line-break: %d\n", ns, nt, nnl);
@@ -453,14 +461,19 @@ int main() {
 
 int main(){
   int c;
-  while((c = getchar()) != EOF){
-    if(c == ' '){
-      while(c == ' '){
+  while((c = getchar()) != EOF) {
+    if(c == ' ') {
+      while(c == ' ') {
         c = getchar();
       }
       putchar(' ');
     }
     putchar(c);
+    // もし、c が空白であれば
+    //    c が空白以外の文字になるまで c = getchar(); を実行し
+    //    c が空白以外になったときに、空白を出力
+    // その後、putchar(c); で空白以外の文字列を出力
+    // 上記の作業をEOFまで繰り返す
   }
 }
 </script>
@@ -490,14 +503,14 @@ int main(){
 
 int main() {
   int c;
-  while((c = getchar()) != EOF){
-    if(c == '\t'){
-      printf("\\t");
-    } else if(c == '\n'){
+  while((c = getchar()) != EOF) {
+    if(c == '\n') {
       printf("\\n");
-    } else if(c == '\\'){
+    } else if(c == '\t') {
+      printf("\\t");
+    } else if(c == '\\') {
       printf("\\\\");
-    } else{
+    } else {
       putchar(c);
     }
   }
@@ -566,7 +579,7 @@ int main() {
 <!-- vue.js -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="../static/auth2.js?v=1.2"></script>
+<script src="../static/auth2.js?v=1.3"></script>
 <!-- Prism.js -->
 <link href="https://unpkg.com/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" />
 <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
