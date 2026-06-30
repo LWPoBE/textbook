@@ -116,7 +116,7 @@ int main() {
 			<dl>
 				<dt>演習1-13</dt>
 				<dd>
-					入力した単語の長さをヒストグラム（度数分布図）にしてプリントするプログラムを書け。ヒストグラムは横に書くほうが簡単だが、縦書きに挑戦してみるのもよい。<br>
+					入力した文字列（ファイル）の単語の長さをヒストグラム（度数分布図）にしてプリントするプログラムを書け。ヒストグラムは横に書くほうが簡単だが、縦書きに挑戦してみるのもよい。<br>
 					出力例（<code>a bcd efg hi jk lmn opqr stu vw xyz</code>が与えられた場合）<br>
 <code><pre style="line-height: 1em;">
 1 ■
@@ -136,7 +136,7 @@ int main() {
 と表示したい。
 				</dd>
 				<dt>演習1-14</dt>
-				<dd>入力中の異なる文字の頻度をヒストグラムにプリントするプログラムを書け（a〜zの登場回数を数える）。</dd>
+				<dd>入力した文字列（ファイル）の異なる文字の頻度をヒストグラムにプリントするプログラムを書け（a〜zの登場回数を数える）。</dd>
 			</dl>
 		</section>
 		<section class="advanced" id="ex1-13">
@@ -151,7 +151,43 @@ int main() {
 					<div class="code">
 <span class="filename">ex1-13.c</span>
 <script type="text/plain" class="language-c line-numbers"
->// 後日公開
+>#include <stdio.h>
+
+#define IN  1
+#define OUT 0
+#define WORD_LEN_MAX 10
+
+int main() {
+  int c, i, j, nc, state;
+  int nwordlen[WORD_LEN_MAX];
+  for (i = 0; i < WORD_LEN_MAX; i++) {
+    nwordlen[i] = 0;
+  }
+  state = OUT;
+  nc = 0;
+  while((c = getchar()) != EOF) {
+    if(c == ' ' || c == '\n' || c == '\t') {
+      state = OUT;
+      if(nc > 0) {
+        nwordlen[nc-1]++;
+      }
+      nc = 0;
+    } else {
+      if(state == OUT) { state = IN; }
+      nc++;
+    }
+  }
+  if(nc > 0) {
+    nwordlen[nc-1]++;
+  }
+  for (i = 0; i < WORD_LEN_MAX; i++) {
+    printf("%d\t", i+1);
+    for (j = 0; j < nwordlen[i]; j++) {
+      printf("X");
+    }
+    printf(" (%d)\n", nwordlen[i]);
+  }
+}
 </script>
 					</div>
 					<div class="code">
